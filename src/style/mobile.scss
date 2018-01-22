@@ -1,0 +1,110 @@
+@media (max-width: 800px) {
+
+  @import "../blocks/header/header_mobile";
+  @import "../blocks/drop/drop-mobile";
+  @import "../blocks/datepicker/datepicker_mobile";
+  @import "forms_mobile";
+
+  .container {
+    padding-top: 48px;
+  }
+
+  .datepicker{
+    width: 100%;
+    height: 56px;
+  }
+
+  .datepicker__btn{
+    min-width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    padding-top: 2px;
+  }
+
+  .scroll-container {
+    height: calc(100% - 48px);
+  }
+
+  .time-panel{
+    margin-top: 57px;
+    padding-left: 181px;
+    height: 32px;
+    position: absolute;
+  }
+
+  .time-panel__label{
+    line-height: 32px;
+  }
+
+  .current-time{
+    padding-left: 181px;
+    position: absolute;
+    padding-top: 57px;
+  }
+
+  .current-time__pointer{
+    padding-top: 6px;
+  }
+
+  .over-grid{
+    padding-left: 181px;
+  }
+
+  .rows-container{
+    padding-top: 90px;
+  }
+
+  .row-room{
+    height: 58px;
+    margin-bottom: 2px;
+  }
+
+  .timeline{
+    height: 58px;
+  }
+
+  .timeslots{
+    height: 58px;
+    margin-top: 0;
+  }
+
+  .timeslot{
+    height: 58px;
+  }
+
+  .sector{
+    height: 58px;
+    padding-top: 16px;
+
+  }
+
+  .room{
+    min-width: 181px;
+    padding-left: 16px;
+  }
+
+  .room__name{
+    margin-top: 8px;
+    max-width: 181px;
+  }
+
+  .row-floor{
+    background-color: rgba(213,223,233,0.2);
+    margin-bottom: 0;
+  }
+
+  .floor{
+    padding-left: 16px;
+  }
+
+  .left-column-bg{
+    width: calc(181px + 2.359%);
+    box-shadow: none;
+  }
+
+  .scrolling-area{
+    min-width: 1000px;
+  }
+
+
+}

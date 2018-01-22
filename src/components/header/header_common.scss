@@ -1,0 +1,24 @@
+.header {
+  position: fixed;
+  box-sizing: border-box;
+  padding-left: 25px;
+  padding-right: 25px;
+  background-color: white;
+  height: 71px;
+  box-shadow: 0 1px 0 0 #E9ECEF;
+  width: 100%;
+  z-index: 5;
+}
+
+.logo {
+  margin-top: 25px;
+  display: block;
+  width: 173.9px;
+  float: left;
+}
+
+.header__button {
+  display: block;
+  float: right;
+  margin-top: 18px;
+}
