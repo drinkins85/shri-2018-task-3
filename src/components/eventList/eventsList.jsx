@@ -202,7 +202,7 @@ class EventsList extends React.Component {
 
     changeSectorWidth(){
         this.setState({
-            sectorWidth: document.querySelector('.over-grid__hour').clientWidth
+            sectorWidth: document.querySelector('.over-grid__hour').clientWidth*1.005
         });
     }
 

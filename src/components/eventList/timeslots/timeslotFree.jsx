@@ -1,5 +1,5 @@
 import React from 'react';
-
+import moment from 'moment';
 
 class TimeslotFree extends React.Component {
     constructor(props){
@@ -10,6 +10,8 @@ class TimeslotFree extends React.Component {
             sectorRight: 'auto',
         };
         this.updateSectorPosition = this.updateSectorPosition.bind(this);
+        this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
+        this.slotClickHandler = this.slotClickHandler.bind(this);
     }
 
     updateSectorPosition(left, right){
@@ -46,15 +48,26 @@ class TimeslotFree extends React.Component {
         if (x > 0 && x+w < timeslot.clientWidth && Math.abs(x - prevX) > step) {
             let tmp = (x/step).toFixed(0);
             this.updateSectorPosition(tmp*step, 'auto');
-            //sector.css('left', tmp*step);
-            /*this.setState({
-                sectorLeft: tmp*step
-            });*/
             prevX = x;
         }
 
-        console.log(this.props.dStart);
 
+
+    }
+
+    slotClickHandler(){
+
+        let date = moment(this.props.dStart);
+
+        if (this.state.sectorRight === 'auto'){
+            console.log(date.add(this.state.sectorLeft/this.props.sectorWidth, 'hours').format())
+        }
+
+
+
+
+        //console.log(this.props.dStart);
+        //console.log(this.state.sectorLeft/this.props.sectorWidth);
     }
 
     render(){
@@ -63,7 +76,7 @@ class TimeslotFree extends React.Component {
             <div ref="timeslot" className="timeslot timeslot_free"
                  style={{ width: this.props.slotWidth }}
                  onMouseMove={(e) => this.mouseMoveHandler(e)}>
-                <div className="sector" ref="sector" style={{
+                <div className="sector" ref="sector" onClick={this.slotClickHandler} style={{
                     width: this.props.sectorWidth,
                     left: this.state.sectorLeft,
                     right: this.state.sectorRight
