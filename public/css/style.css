@@ -305,7 +305,8 @@ body {
 .timeslot_free {
   background-color: white;
   text-align: center;
-  width: 100%; }
+  width: 100%;
+  overflow: hidden; }
 
 .sector {
   background-color: #1D54FE;
@@ -631,5 +632,597 @@ body {
   cursor: pointer;
   text-decoration: none;
   text-align: center; }
+
+/*
+.svg-icon {
+  width: 1em;
+  height: 1em;
+
+  path,
+  polygon,
+  rect {
+    fill: #4691f6;
+  }
+
+  circle {
+    stroke: #4691f6;
+    stroke-width: 1;
+  }
+}
+
+
+#main {
+  width: 400px;
+  margin: 2em auto;
+}
+
+.datePicker {
+  &Label, &Selector {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 1.5em;
+  }
+
+  &Selector {
+    padding: 0;
+    margin-top: 1em;
+    overflow: hidden;
+    display: none;
+
+    moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+
+    &.active {
+      display: block;
+    }
+
+    &Table {
+      width: 100%;
+      border-collapse: collapse;
+
+      tr {
+        border-bottom: 1px solid #eee;
+        &:last-child { border-bottom: 0 }
+      }
+
+      td {
+        padding: 1em;
+        border-right: 1px solid #eee;
+        &:last-child { border-right: 0 }
+      }
+
+      &Header {
+        &CurrentMonth {
+          text-align: center
+        }
+
+        &PreviousMonth, &NextMonth {
+          display: block;
+          margin: auto;
+          path { fill: black };
+          &:hover path { fill: #4691f6 };
+          cursor: pointer;
+        }
+      }
+
+      &Days {
+        &:hover {
+          background: lighten(#e3effe, 4%);
+        }
+
+        &, &NotInMonth {
+          cursor: pointer;
+        }
+
+        &, &Header, &NotInMonth, &Selected {
+          text-align: center;
+        }
+
+        &Header {
+          font-weight: bold;
+        }
+
+        &NotInMonth {
+          color: #ddd;
+
+          &:hover {
+            background: #fdffdd;
+          }
+        }
+
+        &Selected {
+          background: #e3effe;
+          border-left: 0;
+          cursor: default;
+        }
+      }
+    }
+  }
+
+  &Caret {
+    transform: rotate(90deg);
+    margin-top: 0.18em;
+    float: right;
+
+    path {
+      fill: #444;
+    }
+  }
+
+  &Label:hover {
+    border-color: #4691f6;
+
+    .datePicker {
+      &Caret path {
+        fill: #4691f6;
+      }
+    }
+  }
+}
+
+*/
+.datePickerSelector {
+  z-index: 30;
+  display: none;
+  position: absolute;
+  left: 24px;
+  top: 46px;
+  width: 604px;
+  background-color: white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-box-shadow: 0 1px 8px 0 rgba(0, 44, 92, 0.28);
+          box-shadow: 0 1px 8px 0 rgba(0, 44, 92, 0.28);
+  border-radius: 4px;
+  padding: 16px;
+  font-family: inherit; }
+
+.datePickerSelector.active {
+  display: block; }
+
+.datePickerSelectorTable {
+  width: 100%;
+  font-size: 13px;
+  background-color: #f6f7f9; }
+
+.datePickerSelectorTableHeader {
+  background-color: white; }
+
+.datePickerSelectorTableHeader td {
+  text-align: center;
+  padding: 0 5px 10px 5px; }
+
+.datePickerSelectorTableHeaderCurrentMonth {
+  font-size: 15px;
+  text-transform: capitalize;
+  font-weight: bold; }
+
+.datePickerSelectorTableDaysHeader td {
+  text-align: center;
+  font-weight: bold;
+  padding: 10px 5px; }
+
+.datePickerSelectorTableDaysNotInMonth,
+.datePickerSelectorTableDaysSelected,
+.datePickerSelectorTableDays {
+  text-align: center;
+  border: 1px solid rgba(19, 100, 205, 0.1);
+  letter-spacing: 0.4px;
+  padding: 5px 8px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #858E98;
+  cursor: pointer; }
+
+.datePickerSelectorTableDaysSelected {
+  background-color: #007DFF;
+  color: white; }
+
+.datePickerSelectorTableDaysNotInMonth {
+  opacity: 0.6; }
+
+.datePickerSelectorTableDaysNotInMonth:hover,
+.datePickerSelectorTableDaysSelected:hover,
+.datePickerSelectorTableDays:hover {
+  background-color: #98A9B9;
+  color: white; }
+
+.form {
+  position: absolute;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: calc(100% - 71px);
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box; }
+
+.form-body {
+  height: 100%;
+  width: 100%;
+  max-width: 912px;
+  margin: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-top: 31px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 76px; }
+
+.form-footer {
+  min-height: 76px;
+  background: #FFFFFF;
+  -webkit-box-shadow: 0 -1px 0 0 #E9ECEF;
+          box-shadow: 0 -1px 0 0 #E9ECEF;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-top: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%; }
+
+.form__title {
+  font-size: 20px;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin: 0;
+  padding: 0;
+  font-weight: bold; }
+
+.form__close {
+  cursor: pointer;
+  text-align: center;
+  float: right;
+  text-decoration: none; }
+
+.form-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 25px;
+  width: 100%;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+.form-col-left {
+  -ms-flex-preferred-size: 420px;
+      flex-basis: 420px;
+  margin-right: 16px; }
+
+.form-col-right {
+  -ms-flex-preferred-size: 420px;
+      flex-basis: 420px;
+  margin-left: 16px; }
+
+.input-container {
+  position: relative; }
+
+.clearInput {
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  width: 20px;
+  height: 38px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-top: 7px;
+  display: none;
+  cursor: pointer; }
+
+.clearable:valid + .clearInput {
+  display: block; }
+
+.clearInput:hover .icon-close {
+  opacity: 0.75; }
+
+.input-label {
+  display: block;
+  font-size: 13px;
+  color: #000000;
+  letter-spacing: 0;
+  font-weight: bold;
+  margin-bottom: 4px; }
+
+input[placeholder]::-webkit-input-placeholder {
+  opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  color: #858E98; }
+
+input[placeholder]::-moz-placeholder {
+  opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  color: #858E98; }
+
+input[placeholder]:-moz-placeholder {
+  opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  color: #858E98; }
+
+input[placeholder]:-ms-input-placeholder {
+  opacity: 1;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  color: #858E98; }
+
+input[placeholder]:focus::-webkit-input-placeholder {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
+
+input[placeholder]:focus::-moz-placeholder {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
+
+input[placeholder]:focus:-moz-placeholder {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
+
+input[placeholder]:focus:-ms-input-placeholder {
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease; }
+
+.form-input {
+  background: #FFFFFF;
+  border: 2px solid #E9ECEF;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #000000;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+  letter-spacing: 0.47px; }
+
+.form-input:focus {
+  border-color: #007DFF; }
+
+.input-text {
+  padding: 11px 0 12px 10px;
+  width: 100%; }
+
+.input-date {
+  padding: 9px 0 9px 10px;
+  width: 100%; }
+
+.input-date:focus + .date-formatted {
+  opacity: 0; }
+
+.date-formatted {
+  font-size: 13px;
+  padding: 9px 0 9px 8px;
+  background-color: white;
+  display: inline-block;
+  position: absolute;
+  top: 23px;
+  left: 2px;
+  pointer-events: none; }
+
+.input-time {
+  padding: 9px 0 9px 10px;
+  width: 100%; }
+
+.datetime {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%; }
+
+.date {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-right: 16px;
+  -ms-flex-preferred-size: 238px;
+      flex-basis: 238px;
+  position: relative; }
+
+.timelabel {
+  display: none; }
+
+.time {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
+.time-start {
+  -ms-flex-preferred-size: 72px;
+      flex-basis: 72px; }
+
+.time-end {
+  -ms-flex-preferred-size: 72px;
+      flex-basis: 72px; }
+
+.time-divider:before {
+  content: '\2014';
+  display: block;
+  width: 22px;
+  text-align: center;
+  padding-top: 20px;
+  line-height: 38px; }
+
+.recommendation-header {
+  font-size: 13px;
+  color: #000000;
+  letter-spacing: 0;
+  font-weight: bold;
+  margin-bottom: 5px; }
+
+.radio__title_checked {
+  display: none; }
+
+.radio-checked .radio__title_checked {
+  display: inline; }
+
+.radio-checked .radio__title_not_checked {
+  display: none; }
+
+.radio {
+  position: relative; }
+
+.recommend-room {
+  vertical-align: top;
+  width: 17px;
+  height: 17px;
+  margin: 0 3px 0 0; }
+
+.recommend-room + label {
+  cursor: pointer;
+  background: #E9ECEF;
+  border-radius: 4px;
+  display: block;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  color: #000000;
+  margin-bottom: 8px; }
+
+.recommend-room + label:hover {
+  background-color: #dde0e3; }
+
+.recommend-room {
+  position: absolute;
+  opacity: 0; }
+
+.recommend-room:checked + label {
+  background-color: #007DFF;
+  color: white; }
+
+.radio-checked .recommend-room:not(:checked) + label {
+  display: none; }
+
+.room-time {
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 17px;
+  font-weight: bold;
+  display: inline-block;
+  margin-right: 16px; }
+
+.room-name {
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 17px; }
+
+.room-floor {
+  font-size: 13px;
+  letter-spacing: 0;
+  line-height: 17px; }
+
+.room-floor:before {
+  content: '\B7';
+  width: 10px;
+  display: inline-block;
+  text-align: center;
+  line-height: 17px; }
+
+.clear-radio {
+  position: absolute;
+  top: 8px;
+  right: 6px;
+  cursor: pointer;
+  display: none; }
+
+.recommend-room:checked + label + .clear-radio {
+  display: block; }
+
+.user-input-container {
+  width: 100%;
+  position: relative; }
+
+.user-input {
+  padding: 11px 0 12px 10px;
+  width: 100%; }
+
+.user-input.opened {
+  border-color: #007DFF; }
+
+.checked-users {
+  margin-top: 12px; }
+
+.checkbox-user {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none; }
+
+.checkbox-user + .checked-user {
+  background: #E9ECEF;
+  border-radius: 16px;
+  vertical-align: middle;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  display: none; }
+
+.checkbox-user:checked + .checked-user {
+  display: inline-block; }
+
+.checked-user__name {
+  font-size: 13px;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 17px; }
+
+.checked-user__delete {
+  display: inline-block;
+  margin-left: 12px;
+  margin-right: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle; }
+
+.checked-user__delete:hover .icon-close {
+  opacity: 1; }
+
+.checked-user__avatar {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-right: 8px;
+  vertical-align: middle; }
+
+.form-footer .button + .button {
+  margin-left: 12px; }
+
+.form-message {
+  position: fixed;
+  bottom: 0;
+  color: white;
+  opacity: 0.93;
+  visibility: hidden;
+  background: rgba(0, 16, 33, 0.6);
+  font-size: 15px;
+  font-weight: bold;
+  padding: 16px 20px 16px 20px;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-transition: 100ms;
+  transition: 100ms; }
+
+.form-message__visible {
+  visibility: visible;
+  bottom: 76px; }
+
+.divider {
+  display: none; }
+
+.button-delete-mob {
+  display: none; }
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIvY3NzL3N0eWxlLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

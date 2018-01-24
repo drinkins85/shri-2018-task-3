@@ -7,6 +7,7 @@ import * as roomsActions from './actions/roomsActions.js';
 import {BrowserRouter as Router, Route, Link, NavLink, Switch, Redirect} from 'react-router-dom';
 import EventsList from './components/eventList/eventsList.jsx';
 import Header from './components/header/header.jsx';
+import Form from './components/form/form.jsx'
 
 class App extends React.Component {
 
@@ -27,6 +28,13 @@ class App extends React.Component {
                             <React.Fragment>
                                 <Header showAddButton={true}/>
                                 <EventsList events={this.props.events} rooms={this.props.rooms}/>
+                            </React.Fragment>
+                        )} }/>
+                    <Route exact path='/form' render={() => {
+                        return (
+                            <React.Fragment>
+                                <Header showAddButton={false}/>
+                                <Form isEdit={false}/>
                             </React.Fragment>
                         )} }/>
                     <Route path='*' render={() => {

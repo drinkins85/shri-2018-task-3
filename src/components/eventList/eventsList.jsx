@@ -3,7 +3,10 @@ import TimePanel from './timePanel.jsx'
 import moment from 'moment';
 import TimeslotFree from './timeslots/timeslotFree.jsx'
 import TimeslotOcupated from './timeslots/timeslotOcupated.jsx'
-//import {NavLink} from 'react-router-dom';
+
+import DatePicker from '../datepicker/datepicker.jsx';
+
+
 
 class EventsList extends React.Component {
     constructor(props) {
@@ -15,7 +18,7 @@ class EventsList extends React.Component {
         };
 
         this.changeSectorWidth = this.changeSectorWidth.bind(this);
-
+        this.handleChangeDate = this.handleChangeDate.bind(this);
     }
 
     selectEventsByDate(date){
@@ -38,18 +41,23 @@ class EventsList extends React.Component {
         events.forEach(function (event) {
            eventsMap.get(event.room.id).push(event);
         });
-
         return eventsMap;
+    }
 
+    handleChangeDate(newDate){
+        this.setState({
+            date: newDate.utc()
+        })
     }
 
 
     render(){
         moment.locale('RU');
         let events = this.selectEventsByDate(this.state.date);
+        //console.log(events);
         let rooms = this.props.rooms;
-        let start =  moment("2017-12-13T08:00:00.981Z").utc();
-        let finish =  moment("2017-12-13T23:00:00.981Z").utc();
+        let start =  moment(this.state.date).hours(8);
+        let finish =  moment(this.state.date).hours(23);
 
         let eventsMap = this.generateEventsMap(rooms, events);
 
@@ -58,9 +66,9 @@ class EventsList extends React.Component {
         return(
 
             <div className="container">
-                <div className="datepicker">
-                    calendar
-                </div>
+
+                <DatePicker value={this.state.date} onDateChange={this.handleChangeDate}/>
+
                 <div className="scroll-container">
                     <div className="scrolling-area">
 

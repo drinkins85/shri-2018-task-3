@@ -7,7 +7,7 @@ class TimeslotFree extends React.Component {
         this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
         this.state = {
             sectorLeft: 0,
-            sectorRight: 'auto',
+            sectorRight: 'auto'
         };
         this.updateSectorPosition = this.updateSectorPosition.bind(this);
         this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
@@ -50,10 +50,8 @@ class TimeslotFree extends React.Component {
             this.updateSectorPosition(tmp*step, 'auto');
             prevX = x;
         }
-
-
-
     }
+
 
     slotClickHandler(){
 
@@ -62,12 +60,6 @@ class TimeslotFree extends React.Component {
         if (this.state.sectorRight === 'auto'){
             console.log(date.add(this.state.sectorLeft/this.props.sectorWidth, 'hours').format())
         }
-
-
-
-
-        //console.log(this.props.dStart);
-        //console.log(this.state.sectorLeft/this.props.sectorWidth);
     }
 
     render(){

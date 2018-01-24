@@ -1,29 +1,32 @@
 import React from 'react';
+import moment from 'moment';
 
 class CurrentTime extends React.Component{
 
     constructor(props){
         super(props);
         this.state = {
-            position: calcPosition().position,
-            hours: calcPosition().hours,
-            minutes: calcPosition().minutes
+            position: calcPosition()
+          //  hours: calcPosition().hours,
+           // minutes: calcPosition().minutes
         }
     }
 
     render(){
 
         let time = this.state.position;
-        let hours = this.state.hours;
-        let minutes = this.state.minutes;
+        //let hours = this.state.hours;
+        //let minutes = this.state.minutes;
+
+        let today = moment();
 
         return(
 
-            (hours > 8 && hours < 23) ?
+            (today.hour() > 8 && today.hour() < 23) ?
                 <div className="current-time">
                     <div className="current-time__pointer" style={{left: time+'%'}}>
                         <div className="current-time__time">
-                            {hours}:{minutes}
+                            {today.format('k:mm')}
                         </div>
                         <div className="current-time__line"></div>
                     </div>
@@ -43,11 +46,14 @@ function calcPosition() {
     let now = new Date();
     let delta = (now - start)/1000/60/60;
     let position = delta * 6.25;
-    return {
+
+    return position;
+
+   /* return {
         hours: now.getHours(),
         minutes: now.getMinutes(),
         position: position.toFixed(3)
-    }
+    }*/
 }
 
 export default CurrentTime;
