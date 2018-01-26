@@ -28,7 +28,7 @@ class TimeslotOcupated extends React.Component{
                         </a>
                         <h3 className="tooltip__title">{event.title}</h3>
                         <span className="tooltip__date">{event.dateStart.format('D MMMM')}</span>
-                        <span className="tooltip__time">{event.dateStart.format('H:MM')}&mdash;{event.dateEnd.format('H:MM')}</span>
+                        <span className="tooltip__time">{event.dateStart.format('HH:mm')}&mdash;{event.dateEnd.format('HH:mm')}</span>
                         <span className="tooltip__room">{event.room.title}</span>
                         <div className="tooltip-organizer">
                             <div className="tooltip__avatar">

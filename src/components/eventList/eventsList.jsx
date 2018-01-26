@@ -3,7 +3,6 @@ import TimePanel from './timePanel.jsx'
 import moment from 'moment';
 import TimeslotFree from './timeslots/timeslotFree.jsx'
 import TimeslotOcupated from './timeslots/timeslotOcupated.jsx'
-
 import DatePicker from '../datepicker/datepicker.jsx';
 
 
@@ -13,7 +12,7 @@ class EventsList extends React.Component {
         super(props);
 
         this.state = {
-            date: moment("2017-12-13T00:00:00.981Z").utc(),
+            date: moment.utc(),
             sectorWidth: 800
         };
 
@@ -50,17 +49,16 @@ class EventsList extends React.Component {
         })
     }
 
-
     render(){
+
         moment.locale('RU');
         let events = this.selectEventsByDate(this.state.date);
-        //console.log(events);
+
         let rooms = this.props.rooms;
-        let start =  moment(this.state.date).hours(8);
-        let finish =  moment(this.state.date).hours(23);
+        let start =  moment(this.state.date).hours(8).minutes(0);
+        let finish =  moment(this.state.date).hours(23).minutes(0);
 
         let eventsMap = this.generateEventsMap(rooms, events);
-
         let sectorWidth = this.state.sectorWidth;
 
         return(
@@ -129,19 +127,17 @@ class EventsList extends React.Component {
 
                         <div className="rows-container" ref="rowsContainer" >
                             {
-                                rooms.map(function (room, index){
+                                rooms.map((room, index) => {
                                     return(
                                         <React.Fragment key={room.id}>
                                             {
-                                                (index === 0 || rooms[index-1].floor !== room.floor)?
+                                                (index === 0 || rooms[index-1].floor !== room.floor) &&
                                                     <div className="row-floor">
                                                         <div className="floor">
                                                             {room.floor} Этаж
                                                         </div>
                                                         <div className="floor-spacer"></div>
                                                     </div>
-                                                :
-                                                    <React.Fragment></React.Fragment>
                                             }
 
                                             <div className="row-room">
@@ -155,7 +151,7 @@ class EventsList extends React.Component {
                                                     {
                                                         eventsMap.get(room.id).length > 0 ?
 
-                                                            eventsMap.get(room.id).map(function (event, index) {
+                                                            eventsMap.get(room.id).map((event, index) => {
 
                                                                 let end = event.dateEnd;
                                                                 if (event.dateEnd > finish){
@@ -174,24 +170,42 @@ class EventsList extends React.Component {
                                                                 if (eventsMap.get(room.id).length === index+1){
                                                                     return(
                                                                         <React.Fragment key={event.id}>
-                                                                            <TimeslotFree slotWidth={calcwidth(prevEnd, event.dateStart)} sectorWidth={sectorWidth}/>
+                                                                            <TimeslotFree slotWidth={calcwidth(prevEnd, event.dateStart)}
+                                                                                          sectorWidth={sectorWidth}
+                                                                                          dStart={prevEnd}
+                                                                                          dEnd={event.dateStart}
+                                                                                          formRoute={this.props.history.push}
+                                                                            />
                                                                             <TimeslotOcupated event={event} slotWidth={calcwidth(event.dateStart, end)}/>
-                                                                            <TimeslotFree slotWidth={calcwidth(end, finish)} sectorWidth={sectorWidth}/>
+                                                                            <TimeslotFree slotWidth={calcwidth(end, finish)}
+                                                                                          sectorWidth={sectorWidth}
+                                                                                          dStart={event.dateEnd}
+                                                                                          dEnd={finish}
+                                                                                          formRoute={this.props.history.push}
+                                                                            />
                                                                         </React.Fragment>
                                                                     )
                                                                 }
 
-
                                                                 return(
                                                                     <React.Fragment key={event.id}>
-                                                                        <TimeslotFree slotWidth={calcwidth(prevEnd, event.dateStart)} sectorWidth={sectorWidth}/>
+                                                                        <TimeslotFree slotWidth={calcwidth(prevEnd, event.dateStart)}
+                                                                                      sectorWidth={sectorWidth}
+                                                                                      dStart={prevEnd}
+                                                                                      dEnd={event.dateStart}
+                                                                                      formRoute={this.props.history.push}
+                                                                        />
                                                                         <TimeslotOcupated event={event} slotWidth={calcwidth(event.dateStart, end)}/>
                                                                     </React.Fragment>
                                                                  )
 
                                                             })
                                                         :
-                                                            <TimeslotFree slotWidth="100%" sectorWidth={sectorWidth} dStart={start} dEnd={finish} />
+                                                            <TimeslotFree slotWidth="100%"
+                                                                          sectorWidth={sectorWidth}
+                                                                          dStart={start}
+                                                                          dEnd={finish}
+                                                                          formRoute={this.props.history.push}/>
                                                     }
 
                                                 </div>
@@ -210,7 +224,7 @@ class EventsList extends React.Component {
 
     changeSectorWidth(){
         this.setState({
-            sectorWidth: document.querySelector('.over-grid__hour').clientWidth*1.005
+            sectorWidth: document.querySelector('.over-grid__hour').clientWidth
         });
     }
 
@@ -228,7 +242,6 @@ class EventsList extends React.Component {
 
 function calcwidth(start, end){
     let duration = (end - start)/1000/60/60;
-    //console.log(duration);
     return duration * 6.66 + '%';
 }
 

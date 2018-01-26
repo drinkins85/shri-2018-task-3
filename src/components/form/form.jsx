@@ -8,10 +8,11 @@ import UserSelect from './userSelect.jsx';
 class Form extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             theme: this.props.theme || '',
-            dateStart: this.props.dateStart || moment().hours(0).minutes(0),
-            dateEnd: this.props.dateStart || moment().hours(0).minutes(0),
+            dateStart: checkDate(this.props.start),
+            dateEnd: checkDate(this.props.end),
             users: new Set(),
             room: null,
             showRoomRecomendatins: false
@@ -24,6 +25,7 @@ class Form extends React.Component {
         this.checkDates = this.checkDates.bind(this);
         this.removeRoom = this.removeRoom.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
 
@@ -96,28 +98,21 @@ class Form extends React.Component {
     }
 
     handleSubmit(e){
-
         e.preventDefault();
-
-        let usersIds = Array.from(this.state.users).map(user => user.id);
-
-        // check
 
         let newEvent = {
             title: this.state.theme,
             dateStart: this.state.dateStart.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]'),
             dateEnd: this.state.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]'),
-            usersIds: usersIds,
-            roomId: this.state.room
+            users: Array.from(this.state.users),
+            room: this.state.room
         };
 
         this.props.onAddEvent(newEvent);
-
-
     }
 
     render() {
-
+        
         return (
             <div className="container">
 
@@ -125,7 +120,7 @@ class Form extends React.Component {
                     <div className="form-body">
                         <NavLink to="/" className="button_type_circle form__close">
                             <svg className="icon icon-close">
-                                <use href="img/icons_sprite.svg#close"></use>
+                                <use href="/img/icons_sprite.svg#close"></use>
                             </svg>
                         </NavLink>
                         <h1 className="form__title">Новая встреча</h1>
@@ -148,12 +143,11 @@ class Form extends React.Component {
                                                value={this.state.dateStart.format('YYYY-MM-DD')}
                                                ref="date"
                                                onChange={() => {
-                                                   //this.changeInput('date', moment(this.refs.date.value).hours(0).minutes(0));
                                                    this.changeDate(moment(this.refs.date.value));
                                                }}
                                                required={true}
-                                             /*  min={moment().format('YYYY-MM-DD')}
-                                               max={moment().add(5, 'years').format('YYYY-MM-DD')}*/
+                                               min={moment().format('YYYY-MM-DD')}
+                                               max={moment().add(5, 'years').format('YYYY-MM-DD')}
                                                className="form-input input-date"/>
                                     </div>
                                     <div className="time">
@@ -164,7 +158,6 @@ class Form extends React.Component {
                                                    value={this.state.dateStart.format('HH:mm')}
                                                    ref="timeStart"
                                                    onChange={() => {
-                                                       //this.changeInput('timeStart', this.refs.timeStart.value);
                                                        this.setDates('dateStart', this.refs.timeStart.value);
                                                    }}
                                                    className="form-input input-time"
@@ -236,7 +229,12 @@ class Form extends React.Component {
     }
 }
 
-
+function checkDate(date) {
+    if(date !== undefined && moment(date).isValid()){
+        return moment(date)
+    }
+    return moment().hours(0).minutes(0);
+}
 
 
 export default Form;

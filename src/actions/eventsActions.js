@@ -19,8 +19,10 @@ export function loadEventsData(){
 
                     let parsedData = JSON.parse(result, function(key, value) {
                         if (key === 'dateStart' || key === 'dateEnd'){
-                            //console.log(key, moment(value).utc());
-                            return moment(value).utc();
+
+                            //console.log(moment(value).utcOffset());
+
+                            return moment(value).parseZone();
                         }
                         return value;
                     });
@@ -47,7 +49,8 @@ export function loadEventsData(){
 
 export function addEvent(event){
 
-    console.log(event.dateStart);
+    console.log("start", event.dateStart);
+    console.log("end", event.dateEnd );
 
     return dispatch => {
         let headers = new Headers();
@@ -63,8 +66,8 @@ export function addEvent(event){
                           dateStart: "${event.dateStart}",
                           dateEnd: "${event.dateEnd}",                 
                       },
-                      usersIds: [${event.usersIds}],
-                      roomId: ${event.roomId}) { id }
+                      usersIds: [${event.users.map(user => user.id)}],
+                      roomId: ${event.room.id}) { id }
             }`})
         }).then(response => {
             response.json()

@@ -17,16 +17,21 @@ class RoomSelect extends React.Component{
         let membersCount = members.length;
 
         // фильтр свободных комнат
-        let newEventRange = moment.range(date.start, date.end);
+        let newEventRange = moment.range(moment(date.start.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')).utc(), moment(date.end.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')).utc());
         let events = db.events;
         let overlapsedEvents = new Map(); // id комнаты: [события пересекающиеся по датам]
         let ocupatedRooms = new Set(); // подходящие по вместимости, но занятые комнаты(id)
 
+        console.log("new event", newEventRange);
+
         events.forEach(function (event) {
-            let currentEventRange = moment.range(event.dateStart, event.dateEnd);
+
+            let currentEventRange = moment.range(moment.utc(event.dateStart), moment.utc(event.dateEnd));
+
+            console.log(event.title, currentEventRange);
 
             if (newEventRange.overlaps(currentEventRange)){
-                //console.log("Событие", event.title, "пересекается");
+                console.log("Событие", event.title, "пересекается");
                 overlapsedEvents.set(+event.room.id, event);
                 if (event.room.capacity >= membersCount){
                     //ocupatedRooms.push(event.room.id);
@@ -34,6 +39,9 @@ class RoomSelect extends React.Component{
                 }
             }
         });
+
+
+        console.log("overlapsed",overlapsedEvents);
 
 
         let resCapacity = db.rooms.filter(function(item){
@@ -103,19 +111,16 @@ class RoomSelect extends React.Component{
             }
         });
 
-
-        console.log(recomendations);
-
         return recomendations
 
 
     }
 
-    handleChangeRoom(roomId){
-        if (this.props.selectedRoom === roomId){
+    handleChangeRoom(room){
+        if (this.props.selectedRoom && this.props.selectedRoom.id === room.id){
             this.props.onCancelRoom()
         } else {
-            this.props.onSelectRoom(roomId)
+            this.props.onSelectRoom(room)
         }
 
     }
@@ -147,9 +152,8 @@ class RoomSelect extends React.Component{
                                        className="recommend-room"
                                        id={"roomId-"+index}
                                        name="room"
-
-                                       checked={this.props.selectedRoom === recommendation.room.id}
-                                       onChange={() => this.handleChangeRoom(recommendation.room.id)} />
+                                       checked={this.props.selectedRoom !== null && this.props.selectedRoom.id === recommendation.room.id}
+                                       onChange={() => this.handleChangeRoom(recommendation.room)} />
                                 <label htmlFor={"roomId-"+index}>
                                     <span className="room-time">
                                         {recommendation.eventDate.start.format('HH:mm')}&mdash;{recommendation.eventDate.end.format('HH:mm')}

@@ -23,14 +23,27 @@ class App extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <Route exact path='/' render={() => {
+                    <Route exact path='/' render={(props) => {
                         return (
                             <React.Fragment>
                                 <Header showAddButton={true}/>
-                                <EventsList events={this.props.events} rooms={this.props.rooms}/>
+                                <EventsList events={this.props.events} rooms={this.props.rooms} {...props}/>
                             </React.Fragment>
                         )} }/>
-                    <Route exact path='/form' render={() => {
+                    <Route path='/add-event/:start?/:end?' render={(props) => {
+                        return (
+                            <React.Fragment>
+                                <Header showAddButton={false}/>
+                                <Form users={this.props.users}
+                                      events={this.props.events}
+                                      rooms={this.props.rooms}
+                                      onAddEvent={this.props.eventsActions.addEvent}
+                                      start={props.match.params.start}
+                                      end={props.match.params.end}
+                                />
+                            </React.Fragment>
+                        )} }/>
+                    <Route path='/edit-event/:id?' render={(props) => {
                         return (
                             <React.Fragment>
                                 <Header showAddButton={false}/>

@@ -8,10 +8,10 @@ class EventsList extends React.Component {
         return (
             <header>
                 <div className="header">
-                    <img src="img/logo.svg" className="logo"/>
+                    <img src="/img/logo.svg" className="logo"/>
                     {
                         this.props.showAddButton &&
-                            <NavLink to="/form" className="button header__button font_medium">Создать встречу</NavLink>
+                            <NavLink to="/add-event" className="button header__button font_medium">Создать встречу</NavLink>
                     }
 
                 </div>

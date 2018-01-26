@@ -66,8 +66,8 @@ function createData () {
         },
         {
             title: '🍨 Пробуем kefir.js',
-            dateStart: threeHoursLater,
-            dateEnd: twoHoursLater
+            dateStart: twoHoursLater,  // неверная дата
+            dateEnd: threeHoursLater
         }
     ]);
 
