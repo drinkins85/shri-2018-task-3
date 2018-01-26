@@ -209,10 +209,6 @@ class DatePicker extends React.Component {
 
 
     render() {
-       /* let { value, isSelectorActive } = this.state;
-        let { onChangeDate, showSelector, hideSelector, toggleSelector } = this;
-        let childProps = { value, isSelectorActive, onChangeDate, showSelector, hideSelector, toggleSelector };
-*/
         return (
             <div className="datepicker">
                 <DatePickerLabel value={this.state.value}

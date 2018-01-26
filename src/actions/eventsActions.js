@@ -45,9 +45,38 @@ export function loadEventsData(){
     }
 }
 
-export function addUser(){
+export function addEvent(event){
+
+    console.log(event.dateStart);
+
     return dispatch => {
-        setTimeout(()=> dispatch({type: 'ADD_EVENT', payload: {}}),1000)
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        fetch ('http://localhost:3000/graphql', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            headers: headers,
+            body: JSON.stringify({query: `mutation { createEvent( input: {
+                          title: "${event.title}",
+                          dateStart: "${event.dateStart}",
+                          dateEnd: "${event.dateEnd}",                 
+                      },
+                      usersIds: [${event.usersIds}],
+                      roomId: ${event.roomId}) { id }
+            }`})
+        }).then(response => {
+            response.json()
+                .then(result => {
+
+                    event.id = result.data.createEvent.id;
+
+                    console.log(event);
+
+                    dispatch({type: 'ADD_EVENT_SUCCESS', payload: {} })
+                });
+        });
     }
 }
 

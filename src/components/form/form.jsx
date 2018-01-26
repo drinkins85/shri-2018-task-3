@@ -1,20 +1,127 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom';
 import InputText from './inputText.jsx';
+import RoomSelect from './roomSelect.jsx';
+import moment from 'moment';
+import UserSelect from './userSelect.jsx';
 
 class Form extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
+            theme: this.props.theme || '',
+            dateStart: this.props.dateStart || moment().hours(0).minutes(0),
+            dateEnd: this.props.dateStart || moment().hours(0).minutes(0),
+            users: new Set(),
+            room: null,
+            showRoomRecomendatins: false
+        };
+        this.changeInput = this.changeInput.bind(this);
+        this.addUser = this.addUser.bind(this);
+        this.removeUser = this.removeUser.bind(this);
+        this.setRoom = this.setRoom.bind(this);
+        this.setDates = this.setDates.bind(this);
+        this.checkDates = this.checkDates.bind(this);
+        this.removeRoom = this.removeRoom.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
+
+    changeInput(input, value) {
+
+        this.setState({
+                [input]: value
+            }
+        );
+
+    }
+
+    checkDates(){
+
+        let min = moment(this.state.dateStart).hours(7).minutes(59);
+        let max = moment(this.state.dateStart).hours(23).minutes(1);
+
+        if (this.state.dateEnd > this.state.dateStart && this.state.dateStart.isAfter(min) && this.state.dateEnd.isBefore(max)){
+            this.setState({
+                showRoomRecomendatins: true
+            })
         }
     }
 
-    render(){
-        return(
+    changeDate(newDate){
+
+        let StartHours = this.state.dateStart.hours();
+        let StartMinutes = this.state.dateStart.minutes();
+        let EndHours = this.state.dateEnd.hours();
+        let EndMinutes = this.state.dateEnd.minutes();
+
+        this.setState({
+            dateStart: moment(newDate).hours(StartHours).minutes(StartMinutes),
+            dateEnd: moment(newDate).hours(EndHours).minutes(EndMinutes),
+        }, this.checkDates)
+
+    }
+
+    setDates(type, time){
+        this.setState({
+            [type]: moment(this.state[type].format("YYYY-MM-DD ")+time)
+        }, this.checkDates);
+    }
+
+
+    addUser(selectedUser) {
+        this.setState({
+            users:  new Set(this.state.users).add(selectedUser)
+        });
+    }
+
+    removeUser(user){
+        let tmpUserts = new Set(this.state.users);
+        tmpUserts.delete(user);
+        this.setState({
+            users:  tmpUserts
+        });
+    }
+
+    setRoom(room){
+        this.setState({
+            room: room
+        })
+    }
+
+    removeRoom(){
+        this.setState({
+            room: null
+        })
+    }
+
+    handleSubmit(e){
+
+        e.preventDefault();
+
+        let usersIds = Array.from(this.state.users).map(user => user.id);
+
+        // check
+
+        let newEvent = {
+            title: this.state.theme,
+            dateStart: this.state.dateStart.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]'),
+            dateEnd: this.state.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]'),
+            usersIds: usersIds,
+            roomId: this.state.room
+        };
+
+        this.props.onAddEvent(newEvent);
+
+
+    }
+
+    render() {
+
+        return (
             <div className="container">
 
-                <form className="form">
+                <form className="form" onSubmit={this.handleSubmit}>
                     <div className="form-body">
                         <NavLink to="/" className="button_type_circle form__close">
                             <svg className="icon icon-close">
@@ -22,27 +129,62 @@ class Form extends React.Component {
                             </svg>
                         </NavLink>
                         <h1 className="form__title">Новая встреча</h1>
-
                         <div className="form-row">
                             <div className="form-col-left">
-                                <InputText inputId="theme" labelText="Тема" clearable={true} required="required" placeholder="О чём будете говорить?"/>
+                                <InputText inputId="theme"
+                                           labelText="Тема"
+                                           value={this.state.theme}
+                                           clearable={true}
+                                           required={true}
+                                           placeholder="О чём будете говорить?"
+                                           changeHandler={this.changeInput}/>
                             </div>
                             <div className="form-col-right">
                                 <div className="datetime">
                                     <div className="date">
                                         <label className="input-label" htmlFor="date">Дата <span className="timelabel">и время</span></label>
-                                        <input type="date" value="" id="date" required className="form-input input-date date-format" data-date="" data-date-format="DD MMMM YYYY"/>
-                                            <span className="date-formatted"></span>
+                                        <input type="date"
+                                               id="date"
+                                               value={this.state.dateStart.format('YYYY-MM-DD')}
+                                               ref="date"
+                                               onChange={() => {
+                                                   //this.changeInput('date', moment(this.refs.date.value).hours(0).minutes(0));
+                                                   this.changeDate(moment(this.refs.date.value));
+                                               }}
+                                               required={true}
+                                             /*  min={moment().format('YYYY-MM-DD')}
+                                               max={moment().add(5, 'years').format('YYYY-MM-DD')}*/
+                                               className="form-input input-date"/>
                                     </div>
                                     <div className="time">
                                         <div className="time-start">
                                             <label className="input-label" htmlFor="timeStart">Начало</label>
-                                            <input type="time" id="timeStart" className="form-input input-time"/>
+                                            <input type="time"
+                                                   id="timeStart"
+                                                   value={this.state.dateStart.format('HH:mm')}
+                                                   ref="timeStart"
+                                                   onChange={() => {
+                                                       //this.changeInput('timeStart', this.refs.timeStart.value);
+                                                       this.setDates('dateStart', this.refs.timeStart.value);
+                                                   }}
+                                                   className="form-input input-time"
+                                                   required={true}
+                                                   min="08:00"
+                                                   max="23:00"/>
                                         </div>
                                         <div className="time-divider"></div>
                                         <div className="time-end">
                                             <label className="input-label" htmlFor="timeEnd">Конец</label>
-                                            <input type="time" id="timeEnd" className="form-input input-time"/>
+                                            <input type="time"
+                                                   id="timeEnd"
+                                                   value={this.state.dateEnd.format('HH:mm')}
+                                                   ref="timeEnd"
+                                                   onChange={() => {
+                                                       //this.changeInput('timeEnd', this.refs.timeEnd.value);
+                                                       this.setDates('dateEnd', this.refs.timeEnd.value);
+                                                   }}
+                                                   className="form-input input-time"
+                                                   required={true}/>
                                         </div>
                                     </div>
                                 </div>
@@ -53,89 +195,28 @@ class Form extends React.Component {
 
                         <div className="form-row">
                             <div className="form-col-left">
-                                <div className="user-input-container">
-                                    <label htmlFor="users" className="input-label">Участники</label>
-                                    <input type="text" id="users" className="ui-autocomplete-input custom-combobox form-input user-input" placeholder="Например, Тор Одинович"/>
-                                        <button className="dropdown-btn icon-arrow-up">
-                                            <svg className="icon icon-arrow-up">
-                                                <use href="img/icons_sprite.svg#arrow-up"></use>
-                                            </svg>
-                                        </button>
-                                </div>
-                                <div className="checked-users"></div>
+                                <label htmlFor="users" className="input-label">Участники</label>
+                                <UserSelect users={this.props.users}
+                                            id="users"
+                                            selectedUsers={this.state.users}
+                                            addUserHandler={this.addUser}
+                                            removeUserHandler={this.removeUser}/>
                             </div>
 
                             <div className="divider"></div>
 
                             <div className="form-col-right">
-
-                                <div className="radio-group">
-
-                                    <div className="recommendation-header">
-                                        <span className="radio__title_checked">Ваша переговорка</span>
-                                        <span className="radio__title_not_checked">Рекомендованные переговорки</span>
-                                    </div>
-
-                                    <div className="radio">
-                                        <input type="radio" className="recommend-room" id="roomId-1" name="room" required />
-                                        <label htmlFor="roomId-1">
-                                            <span className="room-time">
-                                                16:00—16:30
-                                            </span>
-                                            <span className="room-name">
-                                                Готем
-                                            </span>
-                                            <span className="room-floor">
-                                                4 этаж
-                                            </span>
-                                        </label>
-                                        <span className="clear-radio">
-                                            <svg className="icon icon-close_color_white">
-                                                <use href="img/icons_sprite.svg#close"></use>
-                                            </svg>
-                                        </span>
-                                    </div>
-
-                                    <div className="radio">
-                                        <input type="radio" className="recommend-room" id="roomId-2" name="room"  required/>
-                                        <label htmlFor="roomId-2">
-                                            <span className="room-time">
-                                               16:00—16:30
-                                            </span>
-                                            <span className="room-name">
-                                                Поле непаханное
-                                            </span>
-                                            <span className="room-floor">
-                                                4 этаж
-                                             </span>
-                                        </label>
-                                        <span className="clear-radio">
-                                            <svg className="icon icon-close_color_white">
-                                                <use href="img/icons_sprite.svg#close"></use>
-                                            </svg>
-                                        </span>
-                                    </div>
-
-                                    <div className="radio">
-                                        <input type="radio" className="recommend-room" id="roomId-3" name="room"  required/>
-                                        <label htmlFor="roomId-3">
-                                            <span className="room-time">
-                                               16:00—16:30
-                                            </span>
-                                            <span className="room-name">
-                                                Тёмная башня
-                                            </span>
-                                            <span className="room-floor">
-                                                4 этаж
-                                            </span>
-                                        </label>
-                                        <span className="clear-radio">
-                                            <svg className="icon icon-close_color_white">
-                                                <use href="img/icons_sprite.svg#close"></use>
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
+                                {
+                                    this.state.showRoomRecomendatins &&
+                                    <RoomSelect users={this.state.users}
+                                                events={this.props.events}
+                                                rooms={this.props.rooms}
+                                                dateStart={this.state.dateStart}
+                                                dateEnd={this.state.dateEnd}
+                                                onSelectRoom={this.setRoom}
+                                                selectedRoom={this.state.room}
+                                                onCancelRoom={this.removeRoom}/>
+                                }
                             </div>
                         </div>
                     </div>
@@ -153,7 +234,9 @@ class Form extends React.Component {
             </div>
         )
     }
-
 }
+
+
+
 
 export default Form;

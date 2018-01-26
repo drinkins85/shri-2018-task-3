@@ -14,7 +14,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.props.eventsActions.loadEventsData();
-        //this.props.usersActions.loadUsersData();
+        this.props.usersActions.loadUsersData();
         this.props.roomsActions.loadRoomsData();
     }
 
@@ -34,7 +34,12 @@ class App extends React.Component {
                         return (
                             <React.Fragment>
                                 <Header showAddButton={false}/>
-                                <Form isEdit={false}/>
+                                <Form isEdit={false}
+                                      users={this.props.users}
+                                      events={this.props.events}
+                                      rooms={this.props.rooms}
+                                      onAddEvent={this.props.eventsActions.addEvent}
+                                />
                             </React.Fragment>
                         )} }/>
                     <Route path='*' render={() => {
