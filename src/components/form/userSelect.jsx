@@ -37,12 +37,7 @@ class UserSelect extends React.Component{
 
 
     render(){
-
         let usersArr = Array.from(this.props.selectedUsers);
-
-
-        //console.log(this.props.removeUserHandler);
-
         return(
             <React.Fragment>
                 <Select
@@ -65,7 +60,7 @@ class UserSelect extends React.Component{
                                         <span className="checked-user__name">{user.login}</span>
                                         <label className="checked-user__delete" htmlFor={user.id}>
                                             <svg className="icon icon-close">
-                                                <use href="img/icons_sprite.svg#close"></use>
+                                                <use href="/img/icons_sprite.svg#close"></use>
                                             </svg>
                                         </label>
                                     </div>

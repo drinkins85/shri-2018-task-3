@@ -30,7 +30,7 @@ class App extends React.Component {
                                 <EventsList events={this.props.events} rooms={this.props.rooms} {...props}/>
                             </React.Fragment>
                         )} }/>
-                    <Route path='/add-event/:start?/:end?' render={(props) => {
+                    <Route path='/add-event/:start?/:end?/:room?' render={(props) => {
                         return (
                             <React.Fragment>
                                 <Header showAddButton={false}/>
@@ -40,6 +40,7 @@ class App extends React.Component {
                                       onAddEvent={this.props.eventsActions.addEvent}
                                       start={props.match.params.start}
                                       end={props.match.params.end}
+                                      roomId={props.match.params.room}
                                 />
                             </React.Fragment>
                         )} }/>
@@ -47,7 +48,7 @@ class App extends React.Component {
                         return (
                             <React.Fragment>
                                 <Header showAddButton={false}/>
-                                <Form isEdit={false}
+                                <Form eventId={props.match.params.id}
                                       users={this.props.users}
                                       events={this.props.events}
                                       rooms={this.props.rooms}

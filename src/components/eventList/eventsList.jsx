@@ -12,9 +12,11 @@ class EventsList extends React.Component {
         super(props);
 
         this.state = {
-            date: moment.utc(),
+            date: moment(),
             sectorWidth: 800
         };
+
+        console.log(this.state.date.format());
 
         this.changeSectorWidth = this.changeSectorWidth.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -175,6 +177,7 @@ class EventsList extends React.Component {
                                                                                           dStart={prevEnd}
                                                                                           dEnd={event.dateStart}
                                                                                           formRoute={this.props.history.push}
+                                                                                          roomId={room.id}
                                                                             />
                                                                             <TimeslotOcupated event={event} slotWidth={calcwidth(event.dateStart, end)}/>
                                                                             <TimeslotFree slotWidth={calcwidth(end, finish)}
@@ -182,6 +185,7 @@ class EventsList extends React.Component {
                                                                                           dStart={event.dateEnd}
                                                                                           dEnd={finish}
                                                                                           formRoute={this.props.history.push}
+                                                                                          roomId={room.id}
                                                                             />
                                                                         </React.Fragment>
                                                                     )
@@ -205,7 +209,8 @@ class EventsList extends React.Component {
                                                                           sectorWidth={sectorWidth}
                                                                           dStart={start}
                                                                           dEnd={finish}
-                                                                          formRoute={this.props.history.push}/>
+                                                                          formRoute={this.props.history.push}
+                                                                          roomId={room.id}/>
                                                     }
 
                                                 </div>

@@ -512,6 +512,13 @@ input[placeholder]:focus:-ms-input-placeholder{
   bottom: 76px;
 }
 
+.form-message__close{
+  width: 24px;
+  height: 24px;
+  float: right;
+  cursor: pointer;
+}
+
 .divider{
   display: none;
 }

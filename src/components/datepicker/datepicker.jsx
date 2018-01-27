@@ -5,7 +5,7 @@ class DatePickerSelector extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            tempValue: moment()
+            tempValue: this.props.value
         };
         this.clickDay = this.clickDay.bind(this);
         this.clickNextMonth = this.clickNextMonth.bind(this);

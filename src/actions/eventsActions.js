@@ -11,7 +11,7 @@ export function loadEventsData(){
             cache: 'default',
             headers: headers,
             body: JSON.stringify({query: `query {
-                 events { id, title, dateStart, dateEnd, room { id, title, capacity, floor }, users {id, homeFloor, login} },
+                 events { id, title, dateStart, dateEnd, room { id, title, capacity, floor }, users {id, homeFloor, login, avatarUrl} },
             }`})
         }).then(response => {
             response.text()
@@ -20,7 +20,9 @@ export function loadEventsData(){
                     let parsedData = JSON.parse(result, function(key, value) {
                         if (key === 'dateStart' || key === 'dateEnd'){
 
-                            //console.log(moment(value).utcOffset());
+
+                            let UTCoffset = moment().utcOffset();
+                            console.log(moment(value).parseZone().subtract(UTCoffset, 'minutes'));
 
                             return moment(value).parseZone();
                         }
@@ -74,10 +76,12 @@ export function addEvent(event){
                 .then(result => {
 
                     event.id = result.data.createEvent.id;
+                    event.dateStart = moment(event.dateStart).parseZone();
+                    event.dateEnd = moment(event.dateEnd).parseZone();
 
-                    console.log(event);
+                    console.log("ADD",event);
 
-                    dispatch({type: 'ADD_EVENT_SUCCESS', payload: {} })
+                    dispatch({type: 'ADD_EVENT', payload: event })
                 });
         });
     }

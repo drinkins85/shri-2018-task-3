@@ -21,18 +21,18 @@ class TimeslotOcupated extends React.Component{
                 </div>
                 <ReactTooltip globalEventOff='click' id={event.id+"_tt"} place="bottom" effect="solid" type="light" insecure={false}  >
                     <div className="drop-content">
-                        <a  className="tooltip__edit button_type_circle">
+                        <NavLink to={`/edit-event/${event.id}`}  className="tooltip__edit button_type_circle">
                             <svg className="icon icon-edit">
                                 <use href="img/icons_sprite.svg#edit"></use>
                             </svg>
-                        </a>
+                        </NavLink>
                         <h3 className="tooltip__title">{event.title}</h3>
                         <span className="tooltip__date">{event.dateStart.format('D MMMM')}</span>
                         <span className="tooltip__time">{event.dateStart.format('HH:mm')}&mdash;{event.dateEnd.format('HH:mm')}</span>
                         <span className="tooltip__room">{event.room.title}</span>
                         <div className="tooltip-organizer">
                             <div className="tooltip__avatar">
-                                <img src="img/weider.jpg"/>
+                                <img src="/img/weider.jpg"/>
                             </div>
                             <span className="organizer__name">Дарт Вейдер</span>
                             <span className="tooltip__users"> и 5 участников</span>

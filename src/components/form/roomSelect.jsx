@@ -1,6 +1,7 @@
 import React from 'react'
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import RoomSelectItem from './roomSelectItem.jsx';
 
 const moment = extendMoment(Moment);
 
@@ -9,6 +10,7 @@ class RoomSelect extends React.Component{
         super(props);
 
         this.getRecommendations = this.getRecommendations.bind(this);
+        this.handleChangeRoom = this.handleChangeRoom.bind(this);
 
     }
 
@@ -117,11 +119,12 @@ class RoomSelect extends React.Component{
     }
 
     handleChangeRoom(room){
-        if (this.props.selectedRoom && this.props.selectedRoom.id === room.id){
+        this.props.onSelectRoom(room)
+       /* if (this.props.selectedRoom && this.props.selectedRoom.id === room.id){
             this.props.onCancelRoom()
         } else {
             this.props.onSelectRoom(room)
-        }
+        }*/
 
     }
 
@@ -141,36 +144,18 @@ class RoomSelect extends React.Component{
         return(
             <div className="radio-group">
                 <div className="recommendation-header">
-                    <span className="radio__title_checked">Ваша переговорка</span>
                     <span className="radio__title_not_checked">Рекомендованные переговорки</span>
                 </div>
                 {
                     recommendedRooms.map((recommendation, index) => {
                         return(
-                            <div className="radio" key={index}>
-                                <input type="checkbox"
-                                       className="recommend-room"
-                                       id={"roomId-"+index}
-                                       name="room"
-                                       checked={this.props.selectedRoom !== null && this.props.selectedRoom.id === recommendation.room.id}
-                                       onChange={() => this.handleChangeRoom(recommendation.room)} />
-                                <label htmlFor={"roomId-"+index}>
-                                    <span className="room-time">
-                                        {recommendation.eventDate.start.format('HH:mm')}&mdash;{recommendation.eventDate.end.format('HH:mm')}
-                                    </span>
-                                    <span className="room-name">
-                                        {recommendation.room.title}
-                                    </span>
-                                    <span className="room-floor">
-                                        {recommendation.room.floor} этаж
-                                    </span>
-                                </label>
-                                <label htmlFor={"roomId-"+index} className="clear-radio">
-                                    <svg className="icon icon-close_color_white">
-                                        <use href="img/icons_sprite.svg#close"></use>
-                                    </svg>
-                                </label>
-                            </div>
+                            <RoomSelectItem room={recommendation.room}
+                                            dateStart={recommendation.eventDate.start}
+                                            dateEnd={recommendation.eventDate.end}
+                                            checked={false}
+                                            handleClickRoom={this.handleChangeRoom}
+                                            key={index}
+                            />
                         )
                     })
                 }
