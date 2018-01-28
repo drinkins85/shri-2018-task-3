@@ -6,6 +6,13 @@ export default function events(state = initialState, action){
             return action.payload;
         case 'ADD_EVENT':
             return [...state, action.payload];
+        case 'EDIT_EVENT':
+            return state.map(event => {
+                if (event.id === action.payload.id){
+                    return action.payload
+                }
+                return event;
+            });
         default:
             return state;
     }

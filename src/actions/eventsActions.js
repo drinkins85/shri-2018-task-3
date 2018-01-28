@@ -22,9 +22,9 @@ export function loadEventsData(){
 
 
                             let UTCoffset = moment().utcOffset();
-                            console.log(moment(value).parseZone().subtract(UTCoffset, 'minutes'));
+                            //console.log(moment(value).subtract(UTCoffset, 'minutes'));
 
-                            return moment(value).parseZone();
+                            return moment(value).subtract(UTCoffset, 'minutes');
                         }
                         return value;
                     });
@@ -50,10 +50,6 @@ export function loadEventsData(){
 }
 
 export function addEvent(event){
-
-    console.log("start", event.dateStart);
-    console.log("end", event.dateEnd );
-
     return dispatch => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -65,8 +61,8 @@ export function addEvent(event){
             headers: headers,
             body: JSON.stringify({query: `mutation { createEvent( input: {
                           title: "${event.title}",
-                          dateStart: "${event.dateStart}",
-                          dateEnd: "${event.dateEnd}",                 
+                          dateStart: "${event.dateStart.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",
+                          dateEnd: "${event.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",                 
                       },
                       usersIds: [${event.users.map(user => user.id)}],
                       roomId: ${event.room.id}) { id }
@@ -74,14 +70,40 @@ export function addEvent(event){
         }).then(response => {
             response.json()
                 .then(result => {
-
                     event.id = result.data.createEvent.id;
-                    event.dateStart = moment(event.dateStart).parseZone();
-                    event.dateEnd = moment(event.dateEnd).parseZone();
+                    dispatch({type: 'ADD_EVENT', payload: event });
+                    dispatch({type: 'ADD_MESSAGE', payload: {type:"event-success", data: event} });
 
-                    console.log("ADD",event);
+                });
+        });
+    }
+}
 
-                    dispatch({type: 'ADD_EVENT', payload: event })
+export function editEvent(event) {
+    return dispatch => {
+
+        console.log("edit", event);
+
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        fetch ('http://localhost:3000/graphql', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            headers: headers,
+            body: JSON.stringify({query: `mutation { updateEvent( id: ${event.id} input: {
+                          title: "${event.title}",
+                          dateStart: "${event.dateStart.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",
+                          dateEnd: "${event.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",                 
+                      }) { id }
+            }`})
+        }).then(response => {
+            response.json()
+                .then(result => {
+                    dispatch({type: 'EDIT_EVENT', payload: event });
+                    dispatch({type: 'ADD_MESSAGE', payload: {type:"event-edit-success", data: event} });
+
                 });
         });
     }

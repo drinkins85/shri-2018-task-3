@@ -1,0 +1,69 @@
+.ReactModal__Overlay {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,16,33,0.40);
+  transition: 0.35s ease-in-out;
+  max-height: 100vh;
+  z-index: 20;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.ReactModal__Content{
+  background: white;
+  text-align: center;
+  padding: 32px 62px;
+  box-shadow: 0 1px 16px 0 rgba(0,44,92,0.28);
+  transition: 0.35s ease-in-out;
+  max-height: 100vh;
+  overflow-y: auto;
+  z-index: 20;
+  width: 100%;
+  max-width: 444px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+
+.ReactModal__title {
+  font-size: 20px;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 24px;
+  margin-top: 0;
+  z-index: 20;
+  margin-bottom: 24px;
+}
+
+.ReactModal__text{
+  font-size: 15px;
+  color: #000000;
+  letter-spacing: 0;
+  line-height: 17px;
+}
+
+.ReactModal__date{
+  margin-bottom: 6px;
+}
+
+.ReactModal_room{
+  margin-bottom: 24px;
+}
+
+.ReactModal_icon{
+  width: 40px;
+  height: 40px;
+  margin: auto;
+  margin-bottom: 19px;
+}
+
+.ReactModal__Content .button + .button{
+  margin-left: 12px;
+}

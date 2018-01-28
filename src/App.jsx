@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import * as eventsActions from './actions/eventsActions.js';
 import * as usersActions from './actions/usersActions.js';
 import * as roomsActions from './actions/roomsActions.js';
+import * as messagesActions from './actions/messagesActions.js';
 import {BrowserRouter as Router, Route, Link, NavLink, Switch, Redirect} from 'react-router-dom';
 import EventsList from './components/eventList/eventsList.jsx';
 import Header from './components/header/header.jsx';
@@ -16,6 +17,7 @@ class App extends React.Component {
         this.props.eventsActions.loadEventsData();
         this.props.usersActions.loadUsersData();
         this.props.roomsActions.loadRoomsData();
+        this.props.messagesActions.getMessages();
     }
 
     render(){
@@ -37,10 +39,13 @@ class App extends React.Component {
                                 <Form users={this.props.users}
                                       events={this.props.events}
                                       rooms={this.props.rooms}
-                                      onAddEvent={this.props.eventsActions.addEvent}
+                                      onFormSubmit={this.props.eventsActions.addEvent}
                                       start={props.match.params.start}
                                       end={props.match.params.end}
                                       roomId={props.match.params.room}
+                                      messages={this.props.messages}
+                                      clearMessages={this.props.messagesActions.clearMessages}
+                                      isEdit={false}
                                 />
                             </React.Fragment>
                         )} }/>
@@ -52,7 +57,10 @@ class App extends React.Component {
                                       users={this.props.users}
                                       events={this.props.events}
                                       rooms={this.props.rooms}
-                                      onAddEvent={this.props.eventsActions.addEvent}
+                                      onFormSubmit={this.props.eventsActions.editEvent}
+                                      messages={this.props.messages}
+                                      clearMessages={this.props.messagesActions.clearMessages}
+                                      isEdit={true}
                                 />
                             </React.Fragment>
                         )} }/>
@@ -71,7 +79,8 @@ function mapStateToProps (state) {
     return {
         events: state.events,
         users: state.users,
-        rooms: state.rooms
+        rooms: state.rooms,
+        messages: state.messages
     }
 }
 
@@ -80,6 +89,7 @@ function mapDispatchToProps(dispatch) {
         eventsActions: bindActionCreators(eventsActions, dispatch),
         usersActions: bindActionCreators(usersActions, dispatch),
         roomsActions: bindActionCreators(roomsActions, dispatch),
+        messagesActions: bindActionCreators(messagesActions, dispatch)
     }
 }
 

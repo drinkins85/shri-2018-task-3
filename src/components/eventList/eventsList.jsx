@@ -16,7 +16,7 @@ class EventsList extends React.Component {
             sectorWidth: 800
         };
 
-        console.log(this.state.date.format());
+        //console.log(this.state.date.format());
 
         this.changeSectorWidth = this.changeSectorWidth.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -47,7 +47,7 @@ class EventsList extends React.Component {
 
     handleChangeDate(newDate){
         this.setState({
-            date: newDate.utc()
+            date: newDate
         })
     }
 
@@ -59,6 +59,8 @@ class EventsList extends React.Component {
         let rooms = this.props.rooms;
         let start =  moment(this.state.date).hours(8).minutes(0);
         let finish =  moment(this.state.date).hours(23).minutes(0);
+
+        //console.log(start, finish);
 
         let eventsMap = this.generateEventsMap(rooms, events);
         let sectorWidth = this.state.sectorWidth;
@@ -155,6 +157,8 @@ class EventsList extends React.Component {
 
                                                             eventsMap.get(room.id).map((event, index) => {
 
+                                                                //console.log(event.title, event.dateEnd);
+
                                                                 let end = event.dateEnd;
                                                                 if (event.dateEnd > finish){
                                                                     end = finish;
@@ -162,7 +166,7 @@ class EventsList extends React.Component {
 
                                                                 let prevEnd;
 
-                                                                if (index === 0 && event.dateStart > start){
+                                                                if (index === 0 && event.dateStart >= start){
                                                                     prevEnd = start;
                                                                 } else {
                                                                     prevEnd = eventsMap.get(room.id)[index-1].dateEnd;

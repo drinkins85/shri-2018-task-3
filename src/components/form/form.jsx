@@ -6,6 +6,7 @@ import moment from 'moment';
 import UserSelect from './userSelect.jsx';
 import RoomSelectItem from './roomSelectItem.jsx';
 import FormMessage from './formMessage.jsx';
+import Modal from '../modal/modal.jsx';
 
 class Form extends React.Component {
     constructor(props) {
@@ -21,15 +22,16 @@ class Form extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validateForm = this.validateForm.bind(this);
         this.clearFormMessages = this.clearFormMessages.bind(this);
+        this.checkCapacity = this.checkCapacity.bind(this);
+
 
         let initFormState = () => {
 
-            if (this.props.eventId){
-                console.log(this.props.events);
+            if (this.props.isEdit && this.props.eventId){
+              //  console.log(this.props.events);
                 let event = getEventById(this.props.events, this.props.eventId);
                 if (event){
-                    console.log(event);
-                    return {
+                        return {
                         theme: event.title,
                         dateStart: event.dateStart,
                         dateEnd: event.dateEnd,
@@ -73,7 +75,8 @@ class Form extends React.Component {
     showRecommendations() {
         if (this.checkDates()){
             this.setState({
-                showRoomRecomendatins: true
+                showRoomRecomendatins: true,
+                room: false
             })
         }
     }
@@ -101,7 +104,13 @@ class Form extends React.Component {
     addUser(selectedUser) {
         this.setState({
             users:  new Set(this.state.users).add(selectedUser)
-        });
+        }, this.checkCapacity);
+    }
+
+    checkCapacity(){
+        if (this.state.room && this.state.room.capacity < this.state.users.size){
+            this.showRecommendations();
+        }
     }
 
     removeUser(user){
@@ -121,7 +130,7 @@ class Form extends React.Component {
     removeRoom(){
         this.setState({
             room: false
-        })
+        }, this.showRecommendations)
     }
 
     handleSubmit(e){
@@ -129,15 +138,19 @@ class Form extends React.Component {
 
         let newEvent = {
             title: this.state.theme,
-            dateStart: this.state.dateStart.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]'),
-            dateEnd: this.state.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]'),
+            dateStart: this.state.dateStart,
+            dateEnd: this.state.dateEnd,
             users: Array.from(this.state.users),
             room: this.state.room
         };
 
+
         if (this.validateForm())
         {
-            this.props.onAddEvent(newEvent);
+            if (this.props.isEdit){
+                newEvent.id = this.props.eventId;
+            }
+            this.props.onFormSubmit(newEvent);
         }
     }
 
@@ -149,6 +162,9 @@ class Form extends React.Component {
     }
 
     render() {
+
+        console.log(this.props.clearMessages);
+
         return (
             <div className="container">
 
@@ -159,7 +175,7 @@ class Form extends React.Component {
                                 <use href="/img/icons_sprite.svg#close"></use>
                             </svg>
                         </NavLink>
-                        <h1 className="form__title">Новая встреча</h1>
+                        <h1 className="form__title">{ this.props.isEdit ? "Редактирование встречи" : "Новая встреча"}</h1>
                         <div className="form-row">
                             <div className="form-col-left">
                                 <InputText inputId="theme"
@@ -259,6 +275,8 @@ class Form extends React.Component {
                         </div>
                     </div>
 
+                    <Modal isOpen={!!this.props.messages} message={this.props.messages} onClose={this.props.clearMessages}/>
+
                     { this.state.formMessages.length > 0 &&
                             <FormMessage messages={this.state.formMessages} onClear={this.clearFormMessages}/>
                     }
@@ -301,8 +319,6 @@ class Form extends React.Component {
             );
             return  false;
         }
-
-
         return true;
     }
 

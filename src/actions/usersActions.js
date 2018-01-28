@@ -1,15 +1,3 @@
-
-let users = [
-        {
-            id: 1,
-            login: "Ivan"
-        },
-        {
-            id: 2,
-            login: "Petr"
-        }
-    ];
-
 export function loadUsersData(){
     return dispatch => {
         let headers = new Headers();
@@ -32,7 +20,7 @@ export function loadUsersData(){
     }
 }
 
-export function addEvent(){
+export function addUser(){
     return dispatch => {
         setTimeout(()=> dispatch({type: 'ADD_USER', payload: {}}),1000)
     }

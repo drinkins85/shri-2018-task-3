@@ -11,7 +11,7 @@ class EventsList extends React.Component {
                     <img src="/img/logo.svg" className="logo"/>
                     {
                         this.props.showAddButton &&
-                            <NavLink to="/edit-event/4" className="button header__button font_medium">Создать встречу</NavLink>
+                            <NavLink to="/add-event/" className="button header__button font_medium">Создать встречу</NavLink>
                     }
 
                 </div>
