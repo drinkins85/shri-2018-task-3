@@ -7,6 +7,7 @@ import UserSelect from './userSelect.jsx';
 import RoomSelectItem from './roomSelectItem.jsx';
 import FormMessage from './formMessage.jsx';
 import Modal from '../modal/modal.jsx';
+import PropTypes from 'prop-types';
 
 class Form extends React.Component {
     constructor(props) {
@@ -23,12 +24,12 @@ class Form extends React.Component {
         this.validateForm = this.validateForm.bind(this);
         this.clearFormMessages = this.clearFormMessages.bind(this);
         this.checkCapacity = this.checkCapacity.bind(this);
+        this.handleDeleteEvent = this.handleDeleteEvent.bind(this);
 
 
         let initFormState = () => {
 
             if (this.props.isEdit && this.props.eventId){
-              //  console.log(this.props.events);
                 let event = getEventById(this.props.events, this.props.eventId);
                 if (event){
                         return {
@@ -151,9 +152,21 @@ class Form extends React.Component {
                 newEvent.id = this.props.eventId;
             }
             this.props.onFormSubmit(newEvent);
+            this.props.history.push("/")
         }
     }
 
+    handleDeleteEvent(){
+        this.props.addMessage({type:"confirm", data: {
+            title:"Встреча будет  удалена безвозвратно",
+            handleConfirm: () => {
+                this.props.onDeleteEvent(this.props.eventId);
+                this.props.history.push("/");
+                this.props.clearMessages();
+            },
+        } });
+
+    }
 
     clearFormMessages(){
         this.setState({
@@ -162,8 +175,6 @@ class Form extends React.Component {
     }
 
     render() {
-
-        console.log(this.props.clearMessages);
 
         return (
             <div className="container">
@@ -282,8 +293,19 @@ class Form extends React.Component {
                     }
 
                     <div className="form-footer">
-                        <NavLink to="/" className="button button_color_gray font_medium">Отмена</NavLink>
-                        <button type="submit" className="button button_type_submit font_medium">Создать встречу</button>
+                        { this.props.isEdit ?
+                            <React.Fragment>
+                                <NavLink to="/" className="button button_color_gray font_medium">Отмена</NavLink>
+                                <button type = "button" onClick={this.handleDeleteEvent} className="button button_color_gray font_medium">Удалить встречу</button>
+                                <button type="submit" className="button font_medium open-modal" >Сохранить</button>
+                            </React.Fragment>
+                        :
+                            <React.Fragment>
+                                <NavLink to="/" className="button button_color_gray font_medium">Отмена</NavLink>
+                                <button type="submit" className="button button_type_submit font_medium">Создать встречу</button>
+                            </React.Fragment>
+
+                        }
                     </div>
                 </form>
 
@@ -367,3 +389,18 @@ function getUsersByIds(users, ids) {
 
 
 export default Form;
+
+Form.propTypes = {
+    users: PropTypes.arrayOf(PropTypes.object),
+    events: PropTypes.arrayOf(PropTypes.object),
+    rooms: PropTypes.arrayOf(PropTypes.object),
+    onFormSubmit: PropTypes.func,
+    start: PropTypes.string,
+    end: PropTypes.string,
+    roomId: PropTypes.string,
+    messages: PropTypes.object,
+    clearMessages: PropTypes.func,
+    isEdit: PropTypes.bool,
+    onDeleteEvent: PropTypes.func,
+    addMessage: PropTypes.func
+};

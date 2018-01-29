@@ -2,27 +2,19 @@ import React from 'react'
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import RoomSelectItem from './roomSelectItem.jsx';
+import PropTypes from 'prop-types';
 
 const moment = extendMoment(Moment);
 
 class RoomSelect extends React.Component{
     constructor(props){
         super(props);
-
-       // this.getRecommendations = this.getRecommendations.bind(this);
         this.handleChangeRoom = this.handleChangeRoom.bind(this);
 
     }
 
-
     handleChangeRoom(room){
         this.props.onSelectRoom(room)
-       /* if (this.props.selectedRoom && this.props.selectedRoom.id === room.id){
-            this.props.onCancelRoom()
-        } else {
-            this.props.onSelectRoom(room)
-        }*/
-
     }
 
     render(){
@@ -183,3 +175,11 @@ function getRecommendations(date, members, db, isSwap = false){
 
 
 export default RoomSelect;
+
+RoomSelect.propTypes = {
+    events: PropTypes.arrayOf(PropTypes.object),
+    rooms: PropTypes.arrayOf(PropTypes.object),
+    dateStart: PropTypes.object,
+    dateEnd: PropTypes.object,
+    onSelectRoom: PropTypes.func
+};

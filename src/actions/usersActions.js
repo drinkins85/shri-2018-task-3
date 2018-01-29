@@ -12,10 +12,16 @@ export function loadUsersData(){
                  users {  id, login, homeFloor, avatarUrl }
              }`})
         }).then(response => {
+            if (response.status !== 200){
+                dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: response.status, error: response.statusText}} });
+                return
+            }
             response.json()
                 .then(result => {
                     dispatch({type: 'LOAD_USERS_DATA_SUCCESS', payload: result.data.users})
                 });
+        }).catch(err => {
+            dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: "Ошибка!", error: err}} });
         });
     }
 }

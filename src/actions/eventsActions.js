@@ -81,9 +81,6 @@ export function addEvent(event){
 
 export function editEvent(event) {
     return dispatch => {
-
-        console.log("edit", event);
-
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
@@ -97,16 +94,51 @@ export function editEvent(event) {
                           dateStart: "${event.dateStart.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",
                           dateEnd: "${event.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",                 
                       }) { id }
+                      changeEventRoom (id: ${event.id}, roomId: ${event.room.id}) { id }
             }`})
         }).then(response => {
+            if (response.status !== 200){
+                dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: response.status, error: response.statusText}} });
+                return
+            }
             response.json()
                 .then(result => {
                     dispatch({type: 'EDIT_EVENT', payload: event });
                     dispatch({type: 'ADD_MESSAGE', payload: {type:"event-edit-success", data: event} });
 
                 });
+        }).catch(err => {
+            dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: "Ошибка!", error: err}} });
         });
     }
 }
+
+export function deleteEvent(id) {
+    console.log(id);
+    return dispatch => {
+        let headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Accept', 'application/json');
+        fetch ('http://localhost:3000/graphql', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'default',
+            headers: headers,
+            body: JSON.stringify({query: `mutation { removeEvent( id: ${id} ) { id } }`})
+        }).then(response => {
+            if (response.status !== 200){
+                dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: response.status, error: response.statusText}} });
+                return
+            }
+            response.json()
+                .then(result => {
+                    dispatch({type: 'DELETE_EVENT', payload: id });
+                });
+        }).catch(err => {
+            dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: "Ошибка!", error: err}} });
+        });
+    }
+}
+
 
 

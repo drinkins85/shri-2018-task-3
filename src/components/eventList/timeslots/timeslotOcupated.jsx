@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip'
 import {NavLink} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class TimeslotOcupated extends React.Component{
     constructor(props){
@@ -11,6 +12,7 @@ class TimeslotOcupated extends React.Component{
     render(){
 
         let event = this.props.event;
+        let usersCount = event.users.length;
 
         return(
             <React.Fragment>
@@ -32,11 +34,19 @@ class TimeslotOcupated extends React.Component{
                         <span className="tooltip__time">{event.dateStart.format('HH:mm')}&mdash;{event.dateEnd.format('HH:mm')}</span>
                         <span className="tooltip__room">{event.room.title}</span>
                         <div className="tooltip-organizer">
-                            <div className="tooltip__avatar">
-                                <img src="/img/weider.jpg"/>
-                            </div>
-                            <span className="organizer__name">Дарт Вейдер</span>
-                            <span className="tooltip__users"> и 5 участников</span>
+
+                            {
+                                usersCount > 0 &&   <div className="tooltip__avatar"><img src={event.users[0].avatarUrl}/></div>
+                            }
+
+                            {
+                                usersCount > 0 &&  <span className="organizer__name">{ event.users[0].login }</span>
+                            }
+
+                            {
+                                usersCount-1 > 0  && <span className="tooltip__users"> и { usersCount-1 } участников</span>
+                            }
+
                         </div>
                     </div>
                 </ReactTooltip>
@@ -48,3 +58,8 @@ class TimeslotOcupated extends React.Component{
 }
 
 export default TimeslotOcupated
+
+TimeslotOcupated.propTypes = {
+    event: PropTypes.object,
+    slotWidth: PropTypes.string
+};

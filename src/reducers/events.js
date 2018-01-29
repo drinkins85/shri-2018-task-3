@@ -13,6 +13,8 @@ export default function events(state = initialState, action){
                 }
                 return event;
             });
+        case 'DELETE_EVENT':
+            return state.filter(event => event.id !== action.payload);
         default:
             return state;
     }

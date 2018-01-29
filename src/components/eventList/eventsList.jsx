@@ -4,8 +4,8 @@ import moment from 'moment';
 import TimeslotFree from './timeslots/timeslotFree.jsx'
 import TimeslotOcupated from './timeslots/timeslotOcupated.jsx'
 import DatePicker from '../datepicker/datepicker.jsx';
-
-
+import Modal from '../modal/modal.jsx';
+import PropTypes from 'prop-types';
 
 class EventsList extends React.Component {
     constructor(props) {
@@ -15,16 +15,12 @@ class EventsList extends React.Component {
             date: moment(),
             sectorWidth: 800
         };
-
-        //console.log(this.state.date.format());
-
         this.changeSectorWidth = this.changeSectorWidth.bind(this);
         this.handleChangeDate = this.handleChangeDate.bind(this);
     }
 
     selectEventsByDate(date){
         let events = this.props.events;
-        //console.log(events);
         return events.filter(function (item) {
             if(moment(item.dateStart).isSame(date, 'day')){
                 return item;
@@ -59,8 +55,6 @@ class EventsList extends React.Component {
         let rooms = this.props.rooms;
         let start =  moment(this.state.date).hours(8).minutes(0);
         let finish =  moment(this.state.date).hours(23).minutes(0);
-
-        //console.log(start, finish);
 
         let eventsMap = this.generateEventsMap(rooms, events);
         let sectorWidth = this.state.sectorWidth;
@@ -154,16 +148,12 @@ class EventsList extends React.Component {
                                                 <div className="timeslots">
                                                     {
                                                         eventsMap.get(room.id).length > 0 ?
-
                                                             eventsMap.get(room.id).map((event, index) => {
-
-                                                                //console.log(event.title, event.dateEnd);
 
                                                                 let end = event.dateEnd;
                                                                 if (event.dateEnd > finish){
                                                                     end = finish;
                                                                 }
-
                                                                 let prevEnd;
 
                                                                 if (index === 0 && event.dateStart >= start){
@@ -171,8 +161,6 @@ class EventsList extends React.Component {
                                                                 } else {
                                                                     prevEnd = eventsMap.get(room.id)[index-1].dateEnd;
                                                                 }
-
-
                                                                 if (eventsMap.get(room.id).length === index+1){
                                                                     return(
                                                                         <React.Fragment key={event.id}>
@@ -227,6 +215,9 @@ class EventsList extends React.Component {
                         </div>
                     </div>
                 </div>
+
+                <Modal isOpen={!!this.props.messages} message={this.props.messages} onClose={this.props.clearMessages}/>
+
             </div>
         )
     }
@@ -256,3 +247,10 @@ function calcwidth(start, end){
 
 
 export default EventsList;
+
+EventsList.propTypes = {
+    events: PropTypes.arrayOf(PropTypes.object),
+    rooms: PropTypes.arrayOf(PropTypes.object),
+    messages: PropTypes.object,
+    clearMessages: PropTypes.func
+};

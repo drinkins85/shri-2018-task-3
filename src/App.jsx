@@ -29,7 +29,11 @@ class App extends React.Component {
                         return (
                             <React.Fragment>
                                 <Header showAddButton={true}/>
-                                <EventsList events={this.props.events} rooms={this.props.rooms} {...props}/>
+                                <EventsList events={this.props.events}
+                                            rooms={this.props.rooms}
+                                            messages={this.props.messages}
+                                            clearMessages={this.props.messagesActions.clearMessages}
+                                            {...props}/>
                             </React.Fragment>
                         )} }/>
                     <Route path='/add-event/:start?/:end?/:room?' render={(props) => {
@@ -46,6 +50,7 @@ class App extends React.Component {
                                       messages={this.props.messages}
                                       clearMessages={this.props.messagesActions.clearMessages}
                                       isEdit={false}
+                                      {...props}
                                 />
                             </React.Fragment>
                         )} }/>
@@ -58,9 +63,12 @@ class App extends React.Component {
                                       events={this.props.events}
                                       rooms={this.props.rooms}
                                       onFormSubmit={this.props.eventsActions.editEvent}
+                                      onDeleteEvent={this.props.eventsActions.deleteEvent}
                                       messages={this.props.messages}
                                       clearMessages={this.props.messagesActions.clearMessages}
+                                      addMessage={this.props.messagesActions.addMessage}
                                       isEdit={true}
+                                      {...props}
                                 />
                             </React.Fragment>
                         )} }/>

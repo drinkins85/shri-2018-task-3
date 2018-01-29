@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+
 moment.locale('RU');
 class DatePickerSelector extends React.Component {
     constructor(props){
@@ -54,10 +56,10 @@ class DatePickerSelector extends React.Component {
         let rows = [];
         let daysIndex = 0;
 
-        for (var j = 0; j < 6; j++) {
+        for (let j = 0; j < 6; j++) {
             let row = [];
 
-            for (var i = 0; i < 7; i++) {
+            for (let i = 0; i < 7; i++) {
                 let className = 'datePickerSelectorTableDays';
 
                 if (startDate.month() !== selectedTempDate.month())
@@ -230,3 +232,8 @@ class DatePicker extends React.Component {
 }
 
 export default DatePicker;
+
+DatePicker.propTypes = {
+    value: PropTypes.object,
+    onDateChange: PropTypes.func
+};

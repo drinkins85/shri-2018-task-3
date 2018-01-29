@@ -12,6 +12,10 @@ export function loadRoomsData(){
                  rooms { id, title, capacity, floor }
             }`})
         }).then(response => {
+            if (response.status !== 200){
+                dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: response.status, error: response.statusText}} });
+                return
+            }
             response.json()
                 .then(result => {
 
@@ -25,6 +29,8 @@ export function loadRoomsData(){
                     });
                     dispatch({type: 'LOAD_ROOMS_DATA_SUCCESS', payload: sortedRooms})
                 });
+        }).catch(err => {
+            dispatch({type: 'ADD_MESSAGE', payload: {type:"error", data:{title: "Ошибка!", error: err}} });
         });
     }
 }

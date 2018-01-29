@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+
 
 
 class TimeslotFree extends React.Component {
@@ -90,3 +92,12 @@ class TimeslotFree extends React.Component {
 }
 
 export default TimeslotFree;
+
+TimeslotFree.propTypes = {
+    slotWidth: PropTypes.string,
+    sectorWidth: PropTypes.number,
+    dStar: PropTypes.object,
+    dEnd: PropTypes.object,
+    formRoute: PropTypes.func,
+    roomId: PropTypes.string,
+};

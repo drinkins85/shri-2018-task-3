@@ -53,6 +53,35 @@ class Modal extends React.Component{
                         }]
                     };
 
+                case 'error':
+                    return {
+                        title: message.data.title,
+                        iconUrl: '/img/emoji_delete.png',
+                        content: message.data.error,
+                        buttons: [{
+                            label: "Жаль",
+                            className: "button font_medium close-modal",
+                            onClick: this.props.onClose
+                        }]
+                    };
+                case 'confirm':
+                    return {
+                        title: message.data.title,
+                        iconUrl: '/img/emoji_delete.png',
+                        content: '',
+                        buttons: [{
+                            label: "Отмена",
+                            className: "button button_color_gray font_medium close-modal",
+                            onClick: this.props.onClose
+                        },
+                            {
+                                label: "Удалить",
+                                className: "button button_color_gray font_medium close-modal",
+                                onClick: message.data.handleConfirm
+                            }]
+                    };
+
+
             }
         }
 
@@ -80,6 +109,7 @@ class Modal extends React.Component{
                         shouldCloseOnEsc={true}
                         overlayClassName="ReactModal__Overlay"
                         className="ReactModal__Content"
+                        role="dialog"
             >
                 <div className="ReactModal__icon">
                     <img src={data.iconUrl}/>

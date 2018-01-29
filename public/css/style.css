@@ -1045,6 +1045,9 @@ body {
   margin-right: 8px;
   vertical-align: middle; }
 
+.tooltip__avatar img {
+  width: 100%; }
+
 .organizer__name {
   line-height: 24px;
   display: inline-block;
@@ -1061,135 +1064,6 @@ body {
   text-decoration: none;
   text-align: center; }
 
-/*
-.svg-icon {
-  width: 1em;
-  height: 1em;
-
-  path,
-  polygon,
-  rect {
-    fill: #4691f6;
-  }
-
-  circle {
-    stroke: #4691f6;
-    stroke-width: 1;
-  }
-}
-
-
-#main {
-  width: 400px;
-  margin: 2em auto;
-}
-
-.datePicker {
-  &Label, &Selector {
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    padding: 1.5em;
-  }
-
-  &Selector {
-    padding: 0;
-    margin-top: 1em;
-    overflow: hidden;
-    display: none;
-
-    moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-
-    &.active {
-      display: block;
-    }
-
-    &Table {
-      width: 100%;
-      border-collapse: collapse;
-
-      tr {
-        border-bottom: 1px solid #eee;
-        &:last-child { border-bottom: 0 }
-      }
-
-      td {
-        padding: 1em;
-        border-right: 1px solid #eee;
-        &:last-child { border-right: 0 }
-      }
-
-      &Header {
-        &CurrentMonth {
-          text-align: center
-        }
-
-        &PreviousMonth, &NextMonth {
-          display: block;
-          margin: auto;
-          path { fill: black };
-          &:hover path { fill: #4691f6 };
-          cursor: pointer;
-        }
-      }
-
-      &Days {
-        &:hover {
-          background: lighten(#e3effe, 4%);
-        }
-
-        &, &NotInMonth {
-          cursor: pointer;
-        }
-
-        &, &Header, &NotInMonth, &Selected {
-          text-align: center;
-        }
-
-        &Header {
-          font-weight: bold;
-        }
-
-        &NotInMonth {
-          color: #ddd;
-
-          &:hover {
-            background: #fdffdd;
-          }
-        }
-
-        &Selected {
-          background: #e3effe;
-          border-left: 0;
-          cursor: default;
-        }
-      }
-    }
-  }
-
-  &Caret {
-    transform: rotate(90deg);
-    margin-top: 0.18em;
-    float: right;
-
-    path {
-      fill: #444;
-    }
-  }
-
-  &Label:hover {
-    border-color: #4691f6;
-
-    .datePicker {
-      &Caret path {
-        fill: #4691f6;
-      }
-    }
-  }
-}
-
-*/
 .datePickerSelector {
   z-index: 30;
   display: none;
@@ -1817,13 +1691,11 @@ input[placeholder]:focus:-ms-input-placeholder {
   font-size: 15px;
   color: #000000;
   letter-spacing: 0;
-  line-height: 17px; }
+  line-height: 17px;
+  padding-bottom: 24px; }
 
 .ReactModal__date {
   margin-bottom: 6px; }
-
-.ReactModal_room {
-  margin-bottom: 24px; }
 
 .ReactModal_icon {
   width: 40px;
