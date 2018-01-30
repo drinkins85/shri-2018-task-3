@@ -2,26 +2,45 @@ import React from 'react'
 
 class InputText extends React.Component{
 
+    constructor(props){
+      super(props)
+      this.state = {
+        value : ''
+      }
+
+      this.handleChange = this.handleChange.bind(this);
+      this.handleClear = this.handleClear.bind(this);
+    }
+
+    handleChange(e){
+      this.setState({
+        value: e.target.value
+      })
+    }
+
+    handleClear(){
+      this.setState({
+        value: ''
+      })
+    }
 
     render(){
         return(
         <React.Fragment>
-            <label htmlFor={this.props.inputId} className="input-label">{this.props.labelText}</label>
             <div className="input-container">
                 <input type="text"
                        id={this.props.inputId}
                        className="form-input input-text clearable"
                        required={this.props.required}
                        placeholder={this.props.placeholder}
-                       name={this.props.inputId}
-                       ref={this.props.inputId}
-                       value={this.props.value}
-                       onChange={()=>this.props.changeHandler(this.refs[this.props.inputId].name,this.refs[this.props.inputId].value)}/>
+                       value={this.state.value}
+                       onChange={this.handleChange}
+                       />
                 {
                     this.props.clearable &&
-                        <span className="clearInput" onClick={()=>this.props.changeHandler(this.refs[this.props.inputId].name,'')}>
+                        <span className="clearInput" onClick={this.handleClear}>
                             <svg className="icon icon-close">
-                                <use href="img/icons_sprite.svg#close"></use>
+                                <use href="/img/icons_sprite.svg#close"></use>
                             </svg>
                         </span>
                 }

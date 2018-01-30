@@ -15,7 +15,7 @@ const moment = extendMoment(Moment);
 class Form extends React.Component {
     constructor(props) {
         super(props);
-        this.changeInput = this.changeInput.bind(this);
+  //      this.changeInput = this.changeInput.bind(this);
         this.addUser = this.addUser.bind(this);
         this.removeUser = this.removeUser.bind(this);
         this.setRoom = this.setRoom.bind(this);
@@ -50,7 +50,6 @@ class Form extends React.Component {
             }
 
             return {
-                theme: this.props.theme || '',
                 dateStart: checkDate(this.props.start),
                 dateEnd: checkDate(this.props.end),
                 users: new Set(),
@@ -65,14 +64,14 @@ class Form extends React.Component {
         this.state = initFormState();
 
     }
-
+/*
     changeInput(input, value) {
         this.setState({
                 [input]: value
             }
         );
     }
-
+*/
     checkDates(){
         let min = moment(this.state.dateStart).hours(7).minutes(59);
         let max = moment(this.state.dateStart).hours(23).minutes(1);
@@ -157,9 +156,6 @@ class Form extends React.Component {
     }
 
     setRoom(room, swaps){
-
-      //console.log("need swaps", swaps);
-
         this.setState({
             room: room,
             swap: swaps
@@ -174,9 +170,9 @@ class Form extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-
+  
         let newEvent = {
-            title: this.state.theme,
+            title: this.refs.theme.state.value,
             dateStart: this.state.dateStart,
             dateEnd: this.state.dateEnd,
             users: Array.from(this.state.users),
@@ -233,13 +229,13 @@ class Form extends React.Component {
                         <h1 className="form__title">{ this.props.isEdit ? "Редактирование встречи" : "Новая встреча"}</h1>
                         <div className="form-row">
                             <div className="form-col-left">
+                                <label htmlFor="theme" className="input-label">Тема</label>
                                 <InputText inputId="theme"
-                                           labelText="Тема"
                                            value={this.state.theme}
                                            clearable={true}
                                            required={true}
                                            placeholder="О чём будете говорить?"
-                                           changeHandler={this.changeInput}/>
+                                           ref="theme"/>
                             </div>
                             <div className="form-col-right">
                                 <div className="datetime">
