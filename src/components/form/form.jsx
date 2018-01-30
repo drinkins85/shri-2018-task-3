@@ -2,12 +2,15 @@ import React from 'react'
 import {NavLink} from 'react-router-dom';
 import InputText from './inputText.jsx';
 import RoomSelect from './roomSelect.jsx';
-import moment from 'moment';
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 import UserSelect from './userSelect.jsx';
 import RoomSelectItem from './roomSelectItem.jsx';
 import FormMessage from './formMessage.jsx';
 import Modal from '../modal/modal.jsx';
 import PropTypes from 'prop-types';
+
+const moment = extendMoment(Moment);
 
 class Form extends React.Component {
     constructor(props) {
@@ -25,6 +28,7 @@ class Form extends React.Component {
         this.clearFormMessages = this.clearFormMessages.bind(this);
         this.checkCapacity = this.checkCapacity.bind(this);
         this.handleDeleteEvent = this.handleDeleteEvent.bind(this);
+        this.checkRoom = this.checkRoom.bind(this);
 
 
         let initFormState = () => {
@@ -84,6 +88,26 @@ class Form extends React.Component {
         }
     }
 
+    checkRoom(){
+      if (this.state.room) {
+        let newEventRange = moment.range(this.state.dateStart, this.state.dateEnd)
+        return this.props.events.some(event => {
+          let currentEventRange = moment.range(event.dateStart, event.dateEnd);
+          if (this.props.isEdit && this.props.eventId){
+            if(newEventRange.overlaps(currentEventRange) && event.room.id === this.state.room.id && event.id !== this.props.eventId){
+              return true;
+            }
+          } else {
+            if(newEventRange.overlaps(currentEventRange) && event.room.id === this.state.room.id){
+              return true;
+            }
+          }
+          return false;
+        })
+      }
+      return true;
+    }
+
     changeDate(newDate){
 
         let StartHours = this.state.dateStart.hours();
@@ -94,14 +118,22 @@ class Form extends React.Component {
         this.setState({
             dateStart: moment(newDate).hours(StartHours).minutes(StartMinutes),
             dateEnd: moment(newDate).hours(EndHours).minutes(EndMinutes),
-        }, this.showRecommendations)
+        }, () => {
+          if (this.checkRoom()){
+              this.showRecommendations();
+          }
+        })
 
     }
 
     setDates(type, time){
         this.setState({
             [type]: moment(this.state[type].format("YYYY-MM-DD ")+time)
-        }, this.showRecommendations);
+        }, () => {
+          if (this.checkRoom()){
+              this.showRecommendations();
+          }
+        });
     }
 
     addUser(selectedUser) {
