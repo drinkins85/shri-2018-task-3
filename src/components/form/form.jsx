@@ -32,15 +32,15 @@ class Form extends React.Component {
             if (this.props.isEdit && this.props.eventId){
                 let event = getEventById(this.props.events, this.props.eventId);
                 if (event){
-                        return {
-                        theme: event.title,
-                        dateStart: event.dateStart,
-                        dateEnd: event.dateEnd,
-                        users: new Set(getUsersByIds(this.props.users, event.users.map(user => user.id))),
-                        room: event.room,
-                        swap: [],
-                        showRoomRecomendatins: false,
-                        formMessages: []
+                    return {
+                      theme: event.title,
+                      dateStart: event.dateStart,
+                      dateEnd: event.dateEnd,
+                      users: new Set(getUsersByIds(this.props.users, event.users.map(user => user.id))),
+                      room: event.room,
+                      swap: [],
+                      showRoomRecomendatins: false,
+                      formMessages: []
                     }
                 }
             }
@@ -292,6 +292,7 @@ class Form extends React.Component {
                                                     dateStart={this.state.dateStart}
                                                     dateEnd={this.state.dateEnd}
                                                     onSelectRoom={this.setRoom}
+                                                    editEventId={this.props.eventId}
                                         />
                                 }
                             </div>

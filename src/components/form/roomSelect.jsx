@@ -28,7 +28,9 @@ class RoomSelect extends React.Component{
             {
                 rooms: this.props.rooms,
                 events: this.props.events
-            });
+            },
+            this.props.editEventId
+          );
 
         return(
             <div className="radio-group">
@@ -58,10 +60,9 @@ class RoomSelect extends React.Component{
 }
 
 
-function getRecommendations(date, members, db, isSwap = false){
+function getRecommendations(date, members, db, editEventId, isSwap = false){
 
     let membersCount = members.length;
-
 
     // фильтр свободных комнат
     let newEventRange = moment.range(date.start, date.end);
@@ -71,7 +72,7 @@ function getRecommendations(date, members, db, isSwap = false){
 
     events.forEach(function (event) {
         let currentEventRange = moment.range(moment(event.dateStart), moment(event.dateEnd));
-        if (newEventRange.overlaps(currentEventRange)){
+        if (newEventRange.overlaps(currentEventRange) && event.id !== editEventId){
             overlapsedEvents.set(+event.room.id, event);
             if (event.room.capacity >= membersCount){
                 ocupatedRooms.add(+event.room.id);
@@ -109,7 +110,7 @@ function getRecommendations(date, members, db, isSwap = false){
             };
             let members = event.users;
             // пытаемся перенести событие из этой переговорки
-            let swpWays =  getRecommendations(date, members, db, true);
+            let swpWays =  getRecommendations(date, members, db, editEventId, true);
             if (swpWays.length > 0){
                 let item = swpWays[0];
                 recomendations.push({
@@ -127,7 +128,6 @@ function getRecommendations(date, members, db, isSwap = false){
             }
         })
     }
-    //console.log(recomendations);
 
     // сортировка по количеству пройденных этажей
     recomendations.sort(function(a,b) {
