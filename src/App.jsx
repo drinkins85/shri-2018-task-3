@@ -44,6 +44,7 @@ class App extends React.Component {
                                       events={this.props.events}
                                       rooms={this.props.rooms}
                                       onFormSubmit={this.props.eventsActions.addEvent}
+                                      onChangeEventRoom={this.props.eventsActions.changeEventRoom}
                                       start={props.match.params.start}
                                       end={props.match.params.end}
                                       roomId={props.match.params.room}
@@ -63,6 +64,7 @@ class App extends React.Component {
                                       events={this.props.events}
                                       rooms={this.props.rooms}
                                       onFormSubmit={this.props.eventsActions.editEvent}
+                                      onChangeEventRoom={this.props.eventsActions.changeEventRoom}
                                       onDeleteEvent={this.props.eventsActions.deleteEvent}
                                       messages={this.props.messages}
                                       clearMessages={this.props.messagesActions.clearMessages}

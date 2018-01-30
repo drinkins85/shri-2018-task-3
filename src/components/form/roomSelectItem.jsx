@@ -18,7 +18,7 @@ class RoomSelectItem extends React.Component{
                        id={"roomId-"+room.id}
                        name="room"
                        checked={checked}
-                       onChange={() => this.props.handleClickRoom(room)} />
+                       onChange={() => this.props.handleClickRoom(room, roomsSwap)} />
                 <label htmlFor={"roomId-"+room.id}>
                     <span className="room-time">{dateStart}&mdash;{dateEnd}</span>
                     <span className="room-name">{room.title}</span>
@@ -31,7 +31,7 @@ class RoomSelectItem extends React.Component{
                 </label>
                 {
                     !!roomsSwap && roomsSwap.length > 0 &&
-                    roomsSwap.map((swap,index) => <div className="room-swap" key={index}>Перенос: <span className="event-swap">{swap.event}</span> &rarr; {swap.room.title}  <span className="room-floor">{swap.room.floor} этаж </span></div>)
+                    roomsSwap.map((swap,index) => <div className="room-swap" key={index}>Перенос: <span className="event-swap">{swap.event.title}</span> &rarr; {swap.room.title}  <span className="room-floor">{swap.room.floor} этаж </span></div>)
                 }
             </div>
         )
@@ -40,5 +40,3 @@ class RoomSelectItem extends React.Component{
 }
 
 export default RoomSelectItem;
-
-

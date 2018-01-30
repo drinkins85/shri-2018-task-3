@@ -13,6 +13,14 @@ export default function events(state = initialState, action){
                 }
                 return event;
             });
+        case 'CHANGE_EVENT_ROOM':
+            return state.map(event => {
+                if (event.id === action.payload.event.id){
+                    event.room = action.payload.room;
+                    return event;
+                }
+                return event;
+            });
         case 'DELETE_EVENT':
             return state.filter(event => event.id !== action.payload);
         default:

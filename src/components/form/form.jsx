@@ -38,6 +38,7 @@ class Form extends React.Component {
                         dateEnd: event.dateEnd,
                         users: new Set(getUsersByIds(this.props.users, event.users.map(user => user.id))),
                         room: event.room,
+                        swap: [],
                         showRoomRecomendatins: false,
                         formMessages: []
                     }
@@ -50,6 +51,7 @@ class Form extends React.Component {
                 dateEnd: checkDate(this.props.end),
                 users: new Set(),
                 room: getRoomById(this.props.rooms, this.props.roomId),
+                swap: [],
                 showRoomRecomendatins: this.props.roomId || false,
                 formMessages: []
             }
@@ -122,9 +124,13 @@ class Form extends React.Component {
         });
     }
 
-    setRoom(room){
+    setRoom(room, swaps){
+
+      //console.log("need swaps", swaps);
+
         this.setState({
-            room: room
+            room: room,
+            swap: swaps
         })
     }
 
@@ -145,12 +151,18 @@ class Form extends React.Component {
             room: this.state.room
         };
 
-
         if (this.validateForm())
         {
             if (this.props.isEdit){
                 newEvent.id = this.props.eventId;
             }
+            if (this.state.swap.length >0){
+              this.state.swap.forEach(swap => {
+                console.log("сменить переговорку для", swap.event.id, "на", swap.room.id);
+                this.props.onChangeEventRoom(swap.event, swap.room);
+              })
+            }
+
             this.props.onFormSubmit(newEvent);
             this.props.history.push("/")
         }

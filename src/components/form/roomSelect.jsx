@@ -13,8 +13,8 @@ class RoomSelect extends React.Component{
 
     }
 
-    handleChangeRoom(room){
-        this.props.onSelectRoom(room)
+    handleChangeRoom(room, swap){
+        this.props.onSelectRoom(room, swap)
     }
 
     render(){
@@ -64,40 +64,26 @@ function getRecommendations(date, members, db, isSwap = false){
 
 
     // фильтр свободных комнат
-    // let newEventRange = moment.range(moment(date.start.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')), moment(date.end.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')));
     let newEventRange = moment.range(date.start, date.end);
     let events = db.events;
     let overlapsedEvents = new Map(); // id комнаты: [события пересекающиеся по датам]
     let ocupatedRooms = new Set(); // подходящие по вместимости, но занятые комнаты(id)
 
-    //console.log("new event", newEventRange);
-
     events.forEach(function (event) {
         let currentEventRange = moment.range(moment(event.dateStart), moment(event.dateEnd));
-
-        //console.log(event.title, currentEventRange);
-
         if (newEventRange.overlaps(currentEventRange)){
-            //console.log("Событие", event.title, "пересекается");
             overlapsedEvents.set(+event.room.id, event);
             if (event.room.capacity >= membersCount){
-                //ocupatedRooms.push(event.room.id);
                 ocupatedRooms.add(+event.room.id);
             }
         }
     });
 
-
-    //console.log("overlapsed",overlapsedEvents);
-
-
     let resCapacity = db.rooms.filter(function(item){
         return (item.capacity >= membersCount && !ocupatedRooms.has(+item.id));
     });
 
-
     let recomendations = [];
-
     db.rooms.forEach(function (item) {
         if (item.capacity >= membersCount && !ocupatedRooms.has(+item.id)){
             recomendations.push({
@@ -111,29 +97,20 @@ function getRecommendations(date, members, db, isSwap = false){
         }
     });
 
-
-
     if (recomendations.length === 0 && !isSwap){
-        console.log("OOOps");
+    // нет свободных переговорок
 
         ocupatedRooms.forEach(nextRoom => {
-         //   let nextRoom = 1;
-           // console.log("--",ocupatedRooms);
+            //перебераем подходящие по вместимости
             let event = overlapsedEvents.get(nextRoom);
-            //console.log("пытаемся переместить", event.title);
-            //console.log(event);
             let date =  {
                 start: Date.parse(event.dateStart),
                 end: Date.parse(event.dateEnd)
             };
             let members = event.users;
-
+            // пытаемся перенести событие из этой переговорки
             let swpWays =  getRecommendations(date, members, db, true);
-
-            //console.log("SWPWAYS", swpWays);
-
             if (swpWays.length > 0){
-                //swpWays.forEach(function (item) {
                 let item = swpWays[0];
                 recomendations.push({
                     eventDate: {
@@ -143,23 +120,19 @@ function getRecommendations(date, members, db, isSwap = false){
                     room: event.room,
                     roomFloor: item.roomFloor,
                     roomsSwap:[{
-                        event: event.title,
+                        event: event,
                         room: item.room
                     }]
                 });
-                // });
             }
         })
-
     }
-
-    console.log(recomendations);
+    //console.log(recomendations);
 
     // сортировка по количеству пройденных этажей
     recomendations.sort(function(a,b) {
         let flCountA = members.reduce((sum, current) => sum += Math.abs(current.homeFloor - a.room.floor), 0);
         let flCountB = members.reduce((sum, current) => sum += Math.abs(current.homeFloor - b.room.floor), 0);
-
         if (flCountA > flCountB){
             return 1;
         }
@@ -167,10 +140,7 @@ function getRecommendations(date, members, db, isSwap = false){
             return -1;
         }
     });
-
     return recomendations
-
-
 }
 
 
