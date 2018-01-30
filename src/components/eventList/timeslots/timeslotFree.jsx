@@ -62,7 +62,11 @@ class TimeslotFree extends React.Component {
             start = dateStart.add(this.state.sectorLeft/this.props.sectorWidth, 'hours').format('YYYY-MM-DDTHH:mm');
             end = moment(start).add(1, 'hours').format('YYYY-MM-DDTHH:mm');
         } else {
-            start = dateEnd.subtract(1, 'hours').format('YYYY-MM-DDTHH:mm');
+            let calcStart = moment(dateEnd).subtract(1, 'hours');
+            if (calcStart.isBefore(dateStart)){
+              calcStart = dateStart;
+            };
+            start = calcStart.format('YYYY-MM-DDTHH:mm');
             end = dateEnd.format('YYYY-MM-DDTHH:mm');
         }
         this.props.formRoute(`/add-event/${start}/${end}/${this.props.roomId}`)
