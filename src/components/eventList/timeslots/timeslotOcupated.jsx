@@ -3,6 +3,7 @@ import ReactTooltip from 'react-tooltip'
 import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import * as utils from './../../../scripts/utils.js';
+import moment from 'moment';
 
 class TimeslotOcupated extends React.Component{
     constructor(props){
@@ -25,11 +26,13 @@ class TimeslotOcupated extends React.Component{
                 </div>
                 <ReactTooltip globalEventOff='click' id={event.id+"_tt"} place="bottom" effect="solid" type="light" insecure={false}  >
                     <div className="drop-content">
-                        <NavLink to={`/edit-event/${event.id}`}  className="tooltip__edit button_type_circle">
-                            <svg className="icon icon-edit">
-                                <use href="img/icons_sprite.svg#edit"></use>
-                            </svg>
-                        </NavLink>
+                        { moment().isBefore(event.dateEnd) &&
+                          <NavLink to={`/edit-event/${event.id}`}  className="tooltip__edit button_type_circle">
+                              <svg className="icon icon-edit">
+                                  <use href="img/icons_sprite.svg#edit"></use>
+                              </svg>
+                          </NavLink>
+                        }
                         <h3 className="tooltip__title">{event.title}</h3>
                         <span className="tooltip__date">{event.dateStart.format('D MMMM')}</span>
                         <span className="tooltip__time">{event.dateStart.format('HH:mm')}&mdash;{event.dateEnd.format('HH:mm')}</span>

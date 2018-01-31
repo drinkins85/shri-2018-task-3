@@ -129,6 +129,10 @@ function getRecommendations(date, members, db, editEventId, isSwap = false){
         })
     }
 
+     if (recomendations.length === 0 && isSwap) {
+      console.log("Не удалось освободить переговорку, ищем ближайшую")
+    }
+
     // сортировка по количеству пройденных этажей
     recomendations.sort(function(a,b) {
         let flCountA = members.reduce((sum, current) => sum += Math.abs(current.homeFloor - a.room.floor), 0);
