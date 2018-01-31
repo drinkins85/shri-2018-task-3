@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip'
 import {NavLink} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import * as utils from './../../../scripts/utils.js';
 
 class TimeslotOcupated extends React.Component{
     constructor(props){
@@ -44,7 +45,7 @@ class TimeslotOcupated extends React.Component{
                             }
 
                             {
-                                usersCount-1 > 0  && <span className="tooltip__users"> и { usersCount-1 } участников</span>
+                                usersCount-1 > 0  && <span className="tooltip__users"> и { usersCount-1 } { utils.pluralForms(usersCount-1, ['участник', 'участника', 'участников']) }</span>
                             }
 
                         </div>

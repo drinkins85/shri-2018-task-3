@@ -50,6 +50,7 @@ class Form extends React.Component {
             }
 
             return {
+                theme: '',
                 dateStart: checkDate(this.props.start),
                 dateEnd: checkDate(this.props.end),
                 users: new Set(),
@@ -170,7 +171,7 @@ class Form extends React.Component {
 
     handleSubmit(e){
         e.preventDefault();
-  
+
         let newEvent = {
             title: this.refs.theme.state.value,
             dateStart: this.state.dateStart,
@@ -179,7 +180,7 @@ class Form extends React.Component {
             room: this.state.room
         };
 
-        if (this.validateForm())
+        if (this.validateForm(newEvent))
         {
             if (this.props.isEdit){
                 newEvent.id = this.props.eventId;
@@ -354,9 +355,9 @@ class Form extends React.Component {
         )
     }
 
-    validateForm(){
+    validateForm(data){
 
-        if (!this.state.room){
+        if (!data.room){
             this.setState(
                 {
                     formMessages: [...this.state.formMessages, "Укажите переговорку"]
@@ -365,7 +366,7 @@ class Form extends React.Component {
             return  false;
         }
 
-        if (this.state.theme === ''){
+        if (data.theme === ''){
             this.setState(
                 {
                     formMessages: [...this.state.formMessages, "Укажите тему"]

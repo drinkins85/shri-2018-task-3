@@ -60,13 +60,14 @@ module.exports = {
             });
     },
 
-    removeUserFromEvent(root, { id, userId }, context) {
+    updateEventUsers (root, { id, usersIds }, context) {
         return models.Event.findById(id)
             .then(event => {
-                event.removeUser(userId);
-                return event;
+                return event.setUsers(usersIds)
+                .then(()=> event);
             });
     },
+
 
     changeEventRoom(root, { id, roomId }, context) {
         return models.Event.findById(id)

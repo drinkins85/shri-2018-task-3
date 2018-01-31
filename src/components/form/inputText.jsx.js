@@ -5,7 +5,7 @@ class InputText extends React.Component{
     constructor(props){
       super(props)
       this.state = {
-        value : ''
+        value : this.props.value
       }
 
       this.handleChange = this.handleChange.bind(this);
@@ -48,6 +48,11 @@ class InputText extends React.Component{
         </React.Fragment>
         )
     }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextState.value !== this.state.value;
+    }
+
 }
 
 export default InputText;

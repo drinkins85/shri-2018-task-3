@@ -80,6 +80,7 @@ export function editEvent(event) {
                           dateEnd: "${event.dateEnd.format('YYYY-MM-DDTHH:mm:SS.SSS[Z]')}",
                       }) { id }
                       changeEventRoom (id: ${event.id}, roomId: ${event.room.id}) { id }
+                      updateEventUsers( id:${event.id}, usersIds: [${event.users.map(user => user.id)}]) { id }
             }`})
         }).then(response => {
             if (response.status !== 200){
