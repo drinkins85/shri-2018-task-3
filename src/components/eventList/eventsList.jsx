@@ -21,11 +21,15 @@ class EventsList extends React.Component {
 
     selectEventsByDate(date){
         let events = this.props.events;
-        return events.filter(function (item) {
+        let eventsArr = events.filter(function (item) {
             if(moment(item.dateStart).isSame(date, 'day')){
                 return item;
             }
         })
+        return eventsArr.sort(function(prev, next){
+            return prev.dateStart > next.dateStart
+        })
+
     }
 
     generateEventsMap(rooms, events){
@@ -161,6 +165,8 @@ class EventsList extends React.Component {
                                                                 } else {
                                                                     prevEnd = eventsMap.get(room.id)[index-1].dateEnd;
                                                                 }
+                        
+
                                                                 if (eventsMap.get(room.id).length === index+1){
                                                                     return(
                                                                         <React.Fragment key={event.id}>
@@ -169,8 +175,7 @@ class EventsList extends React.Component {
                                                                                           dStart={prevEnd}
                                                                                           dEnd={event.dateStart}
                                                                                           formRoute={this.props.history.push}
-                                                                                          roomId={room.id}
-                                                                            />
+                                                                                          roomId={room.id} />
                                                                             <TimeslotOcupated event={event} slotWidth={calcwidth(event.dateStart, end)}/>
                                                                             <TimeslotFree slotWidth={calcwidth(end, finish)}
                                                                                           sectorWidth={sectorWidth}
@@ -185,13 +190,13 @@ class EventsList extends React.Component {
 
                                                                 return(
                                                                     <React.Fragment key={event.id}>
-                                                                        <TimeslotFree slotWidth={calcwidth(prevEnd, event.dateStart)}
-                                                                                      sectorWidth={sectorWidth}
-                                                                                      dStart={prevEnd}
-                                                                                      dEnd={event.dateStart}
-                                                                                      formRoute={this.props.history.push}
-                                                                        />
-                                                                        <TimeslotOcupated event={event} slotWidth={calcwidth(event.dateStart, end)}/>
+                                                                    <TimeslotFree slotWidth={calcwidth(prevEnd, event.dateStart)}
+                                                                                  sectorWidth={sectorWidth}
+                                                                                  dStart={prevEnd}
+                                                                                  dEnd={event.dateStart}
+                                                                                  formRoute={this.props.history.push}
+                                                                                  roomId={room.id} />
+                                                                    <TimeslotOcupated event={event} slotWidth={calcwidth(event.dateStart, end)}/>
                                                                     </React.Fragment>
                                                                  )
 

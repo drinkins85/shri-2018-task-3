@@ -47,8 +47,7 @@ class UserSelect extends React.Component{
                     labelKey='login'
                     options={this.props.users}
                     optionComponent={optionUser}
-                    placeholder="Например, Тор Одинович"
-                />
+                    placeholder="Например, Тор Одинович"/>
                 <div className="checked-users">
                     {
                         usersArr.map((user,item) => {

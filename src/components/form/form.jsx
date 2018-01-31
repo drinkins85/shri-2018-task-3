@@ -65,14 +65,7 @@ class Form extends React.Component {
         this.state = initFormState();
 
     }
-/*
-    changeInput(input, value) {
-        this.setState({
-                [input]: value
-            }
-        );
-    }
-*/
+
     checkDates(){
         let min = moment(this.state.dateStart).hours(7).minutes(59);
         let max = moment(this.state.dateStart).hours(23).minutes(1);
@@ -156,10 +149,12 @@ class Form extends React.Component {
         });
     }
 
-    setRoom(room, swaps){
+    setRoom(room, swaps, dateStart, dateEnd){
         this.setState({
             room: room,
-            swap: swaps
+            swap: swaps,
+            dateStart: dateStart,
+            dateEnd: dateEnd
         })
     }
 
@@ -187,8 +182,7 @@ class Form extends React.Component {
             }
             if (this.state.swap.length >0){
               this.state.swap.forEach(swap => {
-                console.log("сменить переговорку для", swap.event.id, "на", swap.room.id);
-                this.props.onChangeEventRoom(swap.event, swap.room);
+              this.props.onChangeEventRoom(swap.event, swap.room);
               })
             }
 

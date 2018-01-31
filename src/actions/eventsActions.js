@@ -19,11 +19,7 @@ export function loadEventsData(){
 
                     let parsedData = JSON.parse(result, function(key, value) {
                         if (key === 'dateStart' || key === 'dateEnd'){
-
-
                             let UTCoffset = moment().utcOffset();
-                            //console.log(moment(value).subtract(UTCoffset, 'minutes'));
-
                             return moment(value).subtract(UTCoffset, 'minutes');
                         }
                         return value;
@@ -35,6 +31,7 @@ export function loadEventsData(){
 }
 
 export function addEvent(event){
+
     return dispatch => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');

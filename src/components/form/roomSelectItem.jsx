@@ -5,10 +5,12 @@ class RoomSelectItem extends React.Component{
 
     render(){
 
+
+
         let room = this.props.room;
         let checked = this.props.checked;
-        let dateStart = moment(this.props.dateStart).format('HH:mm');
-        let dateEnd = moment(this.props.dateEnd).format('HH:mm');
+        let dateStart = moment(this.props.dateStart);
+        let dateEnd = moment(this.props.dateEnd);
         let roomsSwap = this.props.roomsSwap;
 
         return(
@@ -18,9 +20,9 @@ class RoomSelectItem extends React.Component{
                        id={"roomId-"+room.id}
                        name="room"
                        checked={checked}
-                       onChange={() => this.props.handleClickRoom(room, roomsSwap)} />
+                       onChange={() => this.props.handleClickRoom(room, roomsSwap, dateStart, dateEnd)} />
                 <label htmlFor={"roomId-"+room.id}>
-                    <span className="room-time">{dateStart}&mdash;{dateEnd}</span>
+                    <span className="room-time">{dateStart.format('HH:mm')}&mdash;{dateEnd.format('HH:mm')}</span>
                     <span className="room-name">{room.title}</span>
                     <span className="room-floor">{room.floor} этаж </span>
                 </label>
@@ -31,7 +33,7 @@ class RoomSelectItem extends React.Component{
                 </label>
                 {
                     !!roomsSwap && roomsSwap.length > 0 &&
-                    roomsSwap.map((swap,index) => <div className="room-swap" key={index}>Перенос: <span className="event-swap">{swap.event.title}</span> &rarr; {swap.room.title}  <span className="room-floor">{swap.room.floor} этаж </span></div>)
+                    roomsSwap.map((swap,index) => <div className="room-swap" key={index}>Перенос: <span className="event-swap">{ swap.event.title }</span> &rarr; { swap.room.title }  <span className="room-floor">{swap.room.floor} этаж </span></div>)
                 }
             </div>
         )
