@@ -20,7 +20,7 @@ export function loadEventsData(){
                     let parsedData = JSON.parse(result, function(key, value) {
                         if (key === 'dateStart' || key === 'dateEnd'){
                             let UTCoffset = moment().utcOffset();
-                            return moment(value).subtract(UTCoffset, 'minutes');
+                            return moment(value).subtract(UTCoffset, 'minutes').second(0);
                         }
                         return value;
                     });

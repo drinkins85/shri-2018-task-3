@@ -1706,4 +1706,170 @@ input[placeholder]:focus:-ms-input-placeholder {
 .ReactModal__Content .button + .button {
   margin-left: 12px; }
 
+@media (max-width: 800px) {
+  .header {
+    height: 48px;
+    padding-left: 16px; }
+  .logo {
+    width: 138.2px;
+    margin-top: 15.8px; }
+  .header__button {
+    display: none; }
+  .form {
+    min-height: calc(100% - 48px); }
+  .form-body {
+    padding-left: 16px;
+    padding-right: 16px; }
+  .form__close {
+    display: none; }
+  .form-row {
+    display: block; }
+  .form-col-left {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 20px; }
+  .form-col-right {
+    width: 100%;
+    margin-left: 0; }
+  .form-input {
+    font-size: 15px; }
+  .date-formatted {
+    font-size: 15px; }
+  .timelabel {
+    display: inline; }
+  .datetime {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+  .date {
+    min-width: 100%;
+    margin-bottom: 8px; }
+  .time {
+    width: 100%; }
+  .time-start {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%; }
+  .time-start label {
+    display: none; }
+  .time-end {
+    -ms-flex-preferred-size: 50%;
+        flex-basis: 50%; }
+  .time-end label {
+    display: none; }
+  .time-divider:before {
+    padding-top: 0; }
+  .user-input-container {
+    width: 100%; }
+  .checkbox-user + .checked-user {
+    width: 100%; }
+  .checked-user__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px; }
+  .checked-user__avatar img {
+    width: 100%; }
+  .checked-user__name {
+    font-size: 15px;
+    line-height: 19px; }
+  .checked-user__delete {
+    display: block;
+    float: right;
+    padding-top: 4px;
+    margin-right: 8px; }
+  .recommendation-header {
+    margin-top: 20px; }
+  .recommend-room + label {
+    padding: 12px 0 13px 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  .room-time {
+    margin-right: 12px; }
+  .room-name {
+    font-size: 15px; }
+  .room-floor {
+    font-size: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; }
+  .clear-radio {
+    top: 10px; }
+  .form-message {
+    padding: 16px 13px 12px 13px; }
+  .divider {
+    display: block;
+    background-color: #E9ECEF;
+    height: 8px;
+    margin-left: -16px;
+    margin-right: -16px; }
+  .form-edit-footer {
+    text-align: right;
+    padding-right: 16px; }
+  .form-edit-footer .button_type_delete {
+    display: none; }
+  .button-delete-mob {
+    display: block;
+    width: 100%;
+    font-size: 15px;
+    padding-top: 16px;
+    padding-bottom: 16px; }
+  .container {
+    padding-top: 48px; }
+  .datepicker {
+    width: 100%;
+    height: 56px; }
+  .datepicker__btn {
+    min-width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    padding-top: 2px; }
+  .scroll-container {
+    height: calc(100% - 48px); }
+  .time-panel {
+    margin-top: 57px;
+    padding-left: 181px;
+    height: 32px;
+    position: absolute; }
+  .time-panel__label {
+    line-height: 32px; }
+  .current-time {
+    padding-left: 181px;
+    position: absolute;
+    padding-top: 57px; }
+  .current-time__pointer {
+    padding-top: 6px; }
+  .over-grid {
+    padding-left: 181px; }
+  .rows-container {
+    padding-top: 90px; }
+  .row-room {
+    height: 58px;
+    margin-bottom: 2px; }
+  .timeline {
+    height: 58px; }
+  .timeslots {
+    height: 58px;
+    margin-top: 0; }
+  .timeslot {
+    height: 58px; }
+  .sector {
+    height: 58px;
+    padding-top: 16px; }
+  .room {
+    min-width: 181px;
+    padding-left: 16px; }
+  .room__name {
+    margin-top: 8px;
+    max-width: 181px; }
+  .row-floor {
+    background-color: rgba(213, 223, 233, 0.2);
+    margin-bottom: 0; }
+  .floor {
+    padding-left: 16px; }
+  .left-column-bg {
+    width: calc(181px + 2.359%);
+    -webkit-box-shadow: none;
+            box-shadow: none; }
+  .scrolling-area {
+    min-width: 1000px; } }
+
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIvY3NzL3N0eWxlLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

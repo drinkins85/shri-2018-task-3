@@ -155,7 +155,7 @@ class EventsList extends React.Component {
                                                             eventsMap.get(room.id).map((event, index) => {
 
                                                                 let end = event.dateEnd;
-                                                                if (event.dateEnd > finish){
+                                                                if (event.dateEnd >= finish){
                                                                     end = finish;
                                                                 }
                                                                 let prevEnd;
@@ -165,7 +165,7 @@ class EventsList extends React.Component {
                                                                 } else {
                                                                     prevEnd = eventsMap.get(room.id)[index-1].dateEnd;
                                                                 }
-                        
+
 
                                                                 if (eventsMap.get(room.id).length === index+1){
                                                                     return(

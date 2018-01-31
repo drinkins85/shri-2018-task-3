@@ -386,7 +386,7 @@ function checkDate(date) {
     if(date !== undefined && moment(date).isValid()){
         return moment(date)
     }
-    return moment().hours(0).minutes(0);
+    return moment().hours(0).minutes(0).seconds(0);
 }
 
 function getRoomById(rooms, id) {

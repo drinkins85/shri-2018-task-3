@@ -1,9 +1,9 @@
 @media (max-width: 800px) {
 
-  @import "../blocks/header/header_mobile";
-  @import "../blocks/drop/drop-mobile";
-  @import "../blocks/datepicker/datepicker_mobile";
-  @import "forms_mobile";
+  @import "../components/header/header_mobile";
+//  @import "../blocks/drop/drop-mobile";
+//  @import "../blocks/datepicker/datepicker_mobile";
+  @import "../components/form/form_mobile";
 
   .container {
     padding-top: 48px;
