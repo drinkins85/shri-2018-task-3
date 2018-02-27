@@ -1,5 +1,7 @@
 # Задание 3
 
+https://shri2018.herokuapp.com/
+
 ### Запуск
 ```
 npm install
