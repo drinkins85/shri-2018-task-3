@@ -1,11 +1,11 @@
-import moment from 'moment'
+import moment from 'moment';
 
 export function loadEventsData(){
     return dispatch => {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        fetch ('http://localhost:3000/graphql', {
+        fetch ('/graphql', {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
@@ -36,7 +36,7 @@ export function addEvent(event){
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        fetch ('http://localhost:3000/graphql', {
+        fetch ('/graphql', {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
@@ -66,7 +66,7 @@ export function editEvent(event) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        fetch ('http://localhost:3000/graphql', {
+        fetch ('/graphql', {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
@@ -101,7 +101,7 @@ export function deleteEvent(id) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        fetch ('http://localhost:3000/graphql', {
+        fetch ('/graphql', {
             method: 'POST',
             mode: 'cors',
             cache: 'default',
@@ -127,7 +127,7 @@ export function changeEventRoom(event, room) {
         let headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('Accept', 'application/json');
-        fetch ('http://localhost:3000/graphql', {
+        fetch ('/graphql', {
             method: 'POST',
             mode: 'cors',
             cache: 'default',

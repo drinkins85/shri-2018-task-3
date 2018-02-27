@@ -25,7 +25,7 @@ class EventsList extends React.Component {
             if(moment(item.dateStart).isSame(date, 'day')){
                 return item;
             }
-        })
+        });
         return eventsArr.sort(function(prev, next){
             return prev.dateStart > next.dateStart
         })
@@ -60,11 +60,13 @@ class EventsList extends React.Component {
         let start =  moment(this.state.date).hours(8).minutes(0);
         let finish =  moment(this.state.date).hours(23).minutes(0);
 
-        let eventsMap = this.generateEventsMap(rooms, events);
+        let eventsMap = new Map();
+        if (rooms.length > 0){
+            eventsMap = this.generateEventsMap(rooms, events);
+        }
         let sectorWidth = this.state.sectorWidth;
 
         return(
-
             <div className="container">
 
                 <DatePicker value={this.state.date} onDateChange={this.handleChangeDate}/>
@@ -151,7 +153,7 @@ class EventsList extends React.Component {
                                             <div className="timeline">
                                                 <div className="timeslots">
                                                     {
-                                                        eventsMap.get(room.id).length > 0 ?
+                                                        eventsMap.get(room.id) !== undefined && eventsMap.get(room.id).length > 0 ?
                                                             eventsMap.get(room.id).map((event, index) => {
 
                                                                 let end = event.dateEnd;
